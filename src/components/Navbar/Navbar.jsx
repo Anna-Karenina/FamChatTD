@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import PropTypes from 'prop-types';
+import { Link  } from 'react-router-dom'
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -236,7 +237,6 @@ export default function Navbar() {
                   {index  === 1 &&  <GroupIcon /> }
                   {index  === 2 &&  <AssignmentInd /> }
                   {index  === 3 &&  <AssignmentLateIcon /> }
-
                 </ListItemIcon>
                 <ListItemText primary={text} className={classes.listItemText} />
               </ListItem>
@@ -252,7 +252,7 @@ export default function Navbar() {
                   {index === 0 && <AllInboxIcon /> }
                   {index === 1 && <PlaylistAddIcon /> }
                   {index === 2 && <AssignmentReturnedIcon /> }
-                  {index === 3 && <a href='/login'>login</a> }
+                  {index === 3 && <Link to='/login'>login</Link> }
                 </ListItemIcon>
                 <ListItemText primary={text} className={classes.listItemText} />
               </ListItem>
@@ -263,7 +263,6 @@ export default function Navbar() {
         </Drawer>
         <main className={classes.content}>
           <div className={classes.toolbar} />
-          <Typography >
             <TabPanel value={value} index={0}>
 
               <Todos />
@@ -274,7 +273,7 @@ export default function Navbar() {
               <ChatContainer />
 
             </TabPanel>
-          </Typography>
+
         </main>
       </div>
       </>
