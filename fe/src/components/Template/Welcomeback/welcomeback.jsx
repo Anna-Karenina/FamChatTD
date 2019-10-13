@@ -6,7 +6,13 @@ const  Welcomeback = (props) => {
   const [open, setOpen] = useState(true);
 
   const hide = () =>{
+<<<<<<< HEAD
     setTimeout(setOpen(false), 200)
+=======
+    console.log('тут')
+    setTimeout(setOpen(false), 2000)
+
+>>>>>>> 2553426f4705bcb58c36e374b3a5c11c6dcf4927
   }
   return (
     <div className = {open ? (cl.welcwrapper) : (cl.disnone)}  onClick={hide}>

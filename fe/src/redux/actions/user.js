@@ -5,6 +5,7 @@ const Actions = {
     type: "USER:SET_DATA",
     payload: data
   }),
+<<<<<<< HEAD
   fetchUserDataRepeat: (data) => dispatch => {
     console.log(data)
     dispatch(Actions.setUserData(data))
@@ -13,6 +14,14 @@ const Actions = {
     userApi.getMe().then(({ data }) => {
       const ulid = data.id
         window.localStorage["ulid"] = ulid;
+=======
+    fetchUserDataRepeat: (data) => dispatch => {
+        console.log(data)
+        dispatch(Actions.setUserData(data))
+},
+  fetchUserData: () => dispatch => {
+    userApi.getMe().then(({ data }) => {
+>>>>>>> 2553426f4705bcb58c36e374b3a5c11c6dcf4927
       dispatch(Actions.setUserData(data));
     });
   },
@@ -30,6 +39,7 @@ const Actions = {
           console.log('1')
         }
       });
+<<<<<<< HEAD
     },
     fetchUserRegister: (postData) => dispatch => {
       return userApi.registration(postData).then(({data}) =>
@@ -43,3 +53,18 @@ const Actions = {
 
   };
   export default Actions
+=======
+  },
+  fetchUserRegister: (postData) => dispatch => {
+  return userApi.registration(postData).then(({data}) =>
+    console.log(data))
+  .catch( ({response}) => {
+    if(response.status === 500) {
+          dispatch(Actions.fetchUserDataRepeat(response.data ))
+      }
+    })
+}
+
+};
+export default Actions
+>>>>>>> 2553426f4705bcb58c36e374b3a5c11c6dcf4927

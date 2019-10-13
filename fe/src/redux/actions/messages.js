@@ -8,6 +8,7 @@ const Actions = {
   addMessage: message => (dispatch, getState) => {
     const { dialogs } = getState();
     const { currentDialogId } = dialogs;
+<<<<<<< HEAD
       if (currentDialogId === message.dialog._id) {
         dispatch({
           type: "MESSAGES:ADD_MESSAGE",
@@ -17,6 +18,18 @@ const Actions = {
   },
   fetchSendMessage: (text, dialogId) => dispatch => {
     messagesApi.newMessage(text, dialogId);
+=======
+
+    if (currentDialogId === message.dialog._id) {
+      dispatch({
+        type: "MESSAGES:ADD_MESSAGE",
+        payload: message
+      });
+    }
+  },
+  fetchSendMessage: (text, dialogId) => dispatch => {
+    messagesApi.send(text, dialogId);
+>>>>>>> 2553426f4705bcb58c36e374b3a5c11c6dcf4927
   },
   setIsLoading: bool => ({
     type: "MESSAGES:SET_IS_LOADING",
@@ -36,6 +49,7 @@ const Actions = {
       });
   },
   fetchMessages: dialogId => dispatch => {
+<<<<<<< HEAD
     dispatch(Actions.setIsLoading(true))
      messagesApi
        .getAll(dialogId)
@@ -45,6 +59,16 @@ const Actions = {
        })
        .catch(() => {
         dispatch(Actions.setIsLoading(false));
+=======
+     messagesApi
+       .getAll(dialogId)
+       .then(({ data }) => {
+          console.log("я в акшене")
+         dispatch(Actions.setMessages(data));
+       })
+       .catch(() => {
+         console.log(2)
+>>>>>>> 2553426f4705bcb58c36e374b3a5c11c6dcf4927
        });
    }
 };
