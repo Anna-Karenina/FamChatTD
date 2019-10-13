@@ -1,0 +1,46 @@
+@-webkit-keyframes drawIn {
+  0% {
+    stroke: transparent;
+    stroke-dashoffset: 10000;
+  }
+  75% {
+    stroke: white;
+  }
+}
+@keyframes drawIn {
+  0% {
+    stroke: transparent;
+    stroke-dashoffset: 10000;
+  }
+  75% {
+    stroke: white;
+  }
+}
+.disnone{
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0s 2s, opacity 2s linear;
+}
+.welcwrapper{
+visibility: visible;
+opacity: 1;
+transition: opacity 2s linear;
+}
+.welcwrapper svg  {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 25px;
+  margin: auto;
+  -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
+  width: 400px;
+z-index: 1000
+}
+.maskpath {
+  stroke: white;
+  stroke-dasharray: 10000;
+  -webkit-animation: drawIn 2.5s 1s ease-in both;
+          animation: drawIn 2.5s 1s ease-in both;
+}

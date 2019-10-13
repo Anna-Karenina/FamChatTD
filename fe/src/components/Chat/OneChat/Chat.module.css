@@ -1,0 +1,105 @@
+.maincontainer{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+  height: 100vh;
+  background-image: url(../../../assets/bgc.jpg);
+  padding: 0;
+}
+.dialogHeader{
+  position: fixed;
+  padding:  0 3%;
+  display: flex;
+  align-items: center;
+  background-color: rgb(250, 114, 104);
+  box-shadow: 0px 2px 4px -1px rgba(0,0,0,0.2), 0px 4px 5px 0px rgba(0,0,0,0.14), 0px 1px 10px 0px rgba(0,0,0,0.12);
+  min-height: 9%;
+  max-height: 9%;
+  width: 100vw;
+}
+.dialogHeader a {
+  text-decoration: none;
+  color: #333;
+}
+
+.partnerName{
+  width: 34%;
+  margin-left: 3%;
+
+}
+.listOfDialog{
+  overflow-x: hidden;
+  height: 90%;
+  margin: 15% 0% 0 ;
+}
+.listOfDialog ::-webkit-scrollbar {
+  transition: all .5s;
+  width: 5px;
+  height: 1px;
+  z-index: 10;
+}
+
+.listOfDialog ::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.listOfDialog ::-webkit-scrollbar-thumb {
+  background: #b3ada7;
+}
+
+.incomin{
+  float: left;
+  border-radius: 8px 8px 8px 0px;
+  background-color: rgba(55, 168, 174, 0.8);
+}
+.outcomin{
+  float: right;
+  border-radius: 8px 8px 0px 8px;
+  background-color: rgba(148, 200, 194, 0.8);
+}
+.outcomin .date{
+  float: right;
+  margin-right: 3%
+}
+
+.message:first-child {
+  margin-top: 5%;
+}
+.message {
+  color: #000;
+  clear: both;
+  line-height: 18px;
+  font-size: 15px;
+  margin: 8px 2%;
+  padding: 0px;
+  max-width: 85%;
+  min-width: 35%;
+  word-wrap: break-word;
+  z-index: -1;
+}
+.message p {
+  padding: 1% 1% 0 1%;;
+  margin:2%;
+  margin-bottom: 0;
+}
+
+.date{
+  opacity: 0.4;
+  font-size: 8px;
+  margin-left: 3%;
+  padding: 0;
+}
+
+.formcontainer{
+  position: sticky;
+  z-index: 10;
+  bottom: 0;
+  width: 100%;
+}
+.cont{
+  width: 100%
+}
+.backbutton{
+margin-left: -10px;
+}

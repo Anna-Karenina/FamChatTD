@@ -1,0 +1,6 @@
+export {default as IButton } from './IButton'
+export {default as EmailInput } from './EmailInput'
+export {default as LoginInput } from './LoginInput'
+export {default as RegForg } from './RegForg'
+export {default as PassInput } from './PassInput'
+export {default as SimpleSnackbar } from './Notification'
