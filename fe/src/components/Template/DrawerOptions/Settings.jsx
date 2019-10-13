@@ -20,7 +20,6 @@ const useStyles = makeStyles(theme => ({
     maxWidth: '82vw'
 
   },
-<<<<<<< HEAD
   avatarwrapper:{
     background: 'linear-gradient(173deg, rgba(80,182,191,1) 0%, rgba(152,221,221,1) 35%, rgba(0,212,255,1) 100%)',
     width: '101%',
@@ -29,17 +28,6 @@ const useStyles = makeStyles(theme => ({
     minHeight: '15vh',
     flexDirection: 'column',
   },
-=======
-avatarwrapper:{
-  background: 'linear-gradient(173deg, rgba(80,182,191,1) 0%, rgba(152,221,221,1) 35%, rgba(0,212,255,1) 100%)',
-  width: '101%',
-  display: 'flex',
-  alignItems: 'center',
-  minHeight: '15vh',
-  flexDirection: 'column',
-
-},
->>>>>>> 2553426f4705bcb58c36e374b3a5c11c6dcf4927
   avatar: {
     margin: 10,
   },
@@ -58,7 +46,6 @@ avatarwrapper:{
 }));
 
 const Settings = (props) => {
-<<<<<<< HEAD
   const classes = useStyles();
   const{
     email,
@@ -95,66 +82,19 @@ const Settings = (props) => {
         {updatedAt}
         <br />
       </div>
-=======
-    const classes = useStyles();
-const{
-  email,
-  name,
-  avatar,
-  createdAt,
-  updatedAt,
-} = props.user
-  return (
-    <Paper className={classes.root}>
-      <div className={classes.avatarwrapper}>
-       <Typography
-         style = {{margin: '7%'}}
-         gutterBottom variant="h5" component="h2">
-            {name}
-       </Typography>
-           <Avatar
-             alt={name}
-             src={avatar}
-             className={classes.bigAvatar}
-             onClick={()=>props.fetchUserData()}/>
-      </div>
-      <div className={classes.discription} >2
-<br />
-<br />
-<br />
-<br />
-<br />
-<br />
-<br />
-{email}
-<br />
-{createdAt}
-<br />
-{updatedAt}
-<br />
-        </div>
->>>>>>> 2553426f4705bcb58c36e374b3a5c11c6dcf4927
     </Paper>
   )
 }
 
 const mapStateToProps = (state) =>{
-<<<<<<< HEAD
   return{
-=======
-return{
->>>>>>> 2553426f4705bcb58c36e374b3a5c11c6dcf4927
     user: state.user.data
   }
 }
 
 const mapDispachToProps = (dispatch) =>{
   return {
-<<<<<<< HEAD
     fetchUserData: () => dispatch(userActions.fetchUserData())
-=======
-      fetchUserData: () => dispatch(userActions.fetchUserData())
->>>>>>> 2553426f4705bcb58c36e374b3a5c11c6dcf4927
   }
 }
 

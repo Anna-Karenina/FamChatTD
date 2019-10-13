@@ -16,21 +16,12 @@ const LoginInput = (props) => {
    handleBlur,
    id,
     placeholder
-<<<<<<< HEAD
   } = props;
   return (
     <div className ={
       errors[id] && touched[id] ?
       (styled.logininputcontainer+' '+styled.logininputcontainerborder) : (styled.logininputcontainer)
     }>
-=======
- } = props;
-  return (
-    <div className ={
-        errors[id] && touched[id] ?
-        (styled.logininputcontainer+' '+styled.logininputcontainerborder) : (styled.logininputcontainer)
-      }>
->>>>>>> 2553426f4705bcb58c36e374b3a5c11c6dcf4927
       <PersonIcon className = {styled.icon}/>
       <input
         id={id}
@@ -49,7 +40,6 @@ const LoginInput = (props) => {
           <CheckCircleOutlineIcon />
         </IconButton>
               :
-<<<<<<< HEAD
         errors[id] && touched[id] && (
           <IconButton
             title= "Не верный формат почты"
@@ -59,19 +49,6 @@ const LoginInput = (props) => {
             <ErrorOutlineIcon />
           </IconButton>)
           }
-=======
-            errors[id] &&
-          touched[id] && (
-            <IconButton
-                title= "Не верный формат почты"
-                color="secondary"
-                className={styled.eror}
-                aria-label="errorr">
-            <ErrorOutlineIcon />
-          </IconButton>)
-          }
-
->>>>>>> 2553426f4705bcb58c36e374b3a5c11c6dcf4927
     </div>
   )
 }
