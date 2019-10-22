@@ -1,10 +1,9 @@
 import React,{useState} from 'react';
 import { connect } from "react-redux";
+
 import {messagesActions} from './../../../redux/actions/index'
-import { makeStyles } from '@material-ui/core/styles';
-import TextField from '@material-ui/core/TextField';
 
-
+import { makeStyles, TextField } from '@material-ui/core';
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -33,13 +32,9 @@ const useStyles = makeStyles(theme => ({
   }},
 }));
 
-const OutMessageInput = (props) => {
-  const classes = useStyles();
+const OutMessageInput = ({fetchSendMessage ,currentDialogId}) => {
+ const classes = useStyles();
  const [value, setValue] = useState("");
-
-const {fetchSendMessage ,currentDialogId}=props
-
-console.log(value)
 
 const handleSendMessage = e => {
   if (e.keyCode === 13) {
@@ -47,7 +42,6 @@ const handleSendMessage = e => {
     setValue("");
   }
 };
-
   return (
     <form className={classes.container} noValidate autoComplete='off'>
        <TextField
@@ -59,7 +53,6 @@ const handleSendMessage = e => {
         margin="normal"
         variant="outlined"
         autoFocus = {false}
-        FormHelperTextProps = {classes.helper}
         onChange={e => setValue(e.target.value)}
         onKeyUp={handleSendMessage}
         value={value}

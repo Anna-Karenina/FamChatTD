@@ -3,7 +3,7 @@ import  { Route, Redirect } from "react-router-dom";
 import  { connect } from "react-redux";
 import Template from './components/Template/Template';
 import Auth from './components/Auth/Auth';
-import ChatContainer from './components/Chat/OneChat/Chat';
+import ChatContainer from './components/Dialogs/Chat/Chat';
 
 
 
@@ -18,7 +18,7 @@ const App = (props) => {
 
 
 
-   <Route exact path= {[ '/', '/app' ,  '/todos', '/dialogs' , '/settings']} component={Template} />
+   <Route exact path= {[ '/', '/app' ,  '/tasks', '/dialogs' , '/settings']} component={Template} />
 
   <Route  path= '/messages' component={ChatContainer} />
     </>

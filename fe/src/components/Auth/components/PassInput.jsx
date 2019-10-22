@@ -1,6 +1,6 @@
 import React from 'react'
 
-import styled from './../Login.module.css'
+import styled from './../Auth.module.css'
 
 import LockIcon from '@material-ui/icons/Lock';
 import ErrorOutlineIcon from '@material-ui/icons/ErrorOutline';
@@ -8,6 +8,7 @@ import IconButton from '@material-ui/core/IconButton';
 import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
 
 const PassInput = (props) => {
+  console.log(props)
   const {
    values,
    touched,
@@ -44,9 +45,7 @@ const PassInput = (props) => {
           <CheckCircleOutlineIcon />
         </IconButton>
               :
-
-            errors[id] &&
-          touched[id] && (
+            errors[id] && touched[id] && (
             <IconButton
                 onClick={()=>{alert(errors[id])}}
                 color="secondary"

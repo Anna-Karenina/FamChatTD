@@ -21,21 +21,26 @@ const useStyles = makeStyles(theme => ({
   bigAvatar: {
     width: 59,
     height: 59,
-    marginLeft: '10%',
+    marginLeft: '2%',
     marginRight: '3%',
   },
 
 }));
 
 const ChatContainer  = (props) => {
-  const classes = useStyles();
-console.log(props)
-const {currentDialogId, addMessage, fetchMessages , items, isLoading, currentPartner } = props
+ const classes = useStyles()
+ const messagesRef = useRef(null)
+  const {
+    currentDialogId,
+    addMessage,
+    fetchMessages,
+    items,
+    isLoading,
+    currentPartner
+  } = props
 
-const messagesRef = useRef(null);
 
-const onNewMessage = data => {
-  console.log(data)
+  const onNewMessage = data => {
     addMessage(data);
   };
 
@@ -59,61 +64,55 @@ const onNewMessage = data => {
       dialogAuthor = {i.dialog.author}
       messageAuthor = {i.user._id}
       createdAt ={i.createdAt}
-    />
+      />
   )
-
-
-
   return (
     <div className = {cl.maincontainer}>
       <div className= {cl.dialogHeader}>
-      <Link
-        to="/dialogs#headerindialogs"
-        style={{display: "flex", alignItems: 'center', width: '17%'}}>
+        <Link
+          to="/dialogs#headerindialogs"
+          style={{display: "flex", alignItems: 'center', width: '17%'}}>
           <ArrowBackIosIcon />
-          <span className={cl.backbutton}>назад</span></Link>
-
-
+          <span className={cl.backbutton}>назад</span>
+        </Link>
+        <span className={cl.date}>
+        {currentPartner.isOnline? 'online' : 'offline'}
+        </span>
           <Avatar
             alt={currentPartner.name}
             src={currentPartner.avatar}
-            className= {classes.bigAvatar} />
-
-
-        <span className={cl.partnerName} >{currentPartner.name}</span>
-        <MoreVertIcon style={{marginLeft: '7%'}} />
+            className= {classes.bigAvatar}
+          />
+          <span className={cl.partnerName}>
+            {currentPartner.name}
+          </span>
+          <MoreVertIcon  />
       </div>
-        { isLoading ? <Loading /> :
+        { isLoading ?
+          <div className = {cl.listOfDialog}>
+            <Loading />
+          </div> :
           <div className = {cl.listOfDialog} ref={messagesRef}>
-
-
-{list}
-
-
-
-
+            {list}
           </div>
-           }
-
-
-      <div className = {cl.formcontainer}>
-        <OutMessageInput />
+        }
+        <div className = {cl.formcontainer}>
+          <OutMessageInput />
+        </div>
       </div>
-    </div>
-  )
-}
-
-
-
-const mapStateToProps = (state) =>{
-return{
-state :state,
-currentDialogId: state.dialogs.currentDialogId,
-currentPartner: state.dialogs.currentPartner,
-items: state.message.items,
-isLoading: state.message.isLoading
+    )
   }
-}
 
 
-export default connect(mapStateToProps, messagesActions)(ChatContainer)
+
+  const mapStateToProps = (state) =>{
+    return{
+      currentDialogId: state.dialogs.currentDialogId,
+      currentPartner: state.dialogs.currentPartner,
+      items: state.message.items,
+      isLoading: state.message.isLoading
+    }
+  }
+
+
+  export default connect(mapStateToProps, messagesActions)(ChatContainer)

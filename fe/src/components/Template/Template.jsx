@@ -3,40 +3,29 @@ import React, {useState} from 'react';
 import  { Route, NavLink as Link , Switch } from "react-router-dom";
 
 import PropTypes from 'prop-types';
-import Welcomeback  from './Welcomeback/welcomeback';
-import Loading  from './Loading/Loading';
-
 
 import { makeStyles, useTheme } from '@material-ui/core/styles';
-import Drawer from '@material-ui/core/Drawer';
-import Toolbar from '@material-ui/core/Toolbar';
-import List from '@material-ui/core/List';
-import AppBar from '@material-ui/core/AppBar';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import Tab from '@material-ui/core/Tab';
-import Typography from '@material-ui/core/Typography';
-import Box from '@material-ui/core/Box';
+import {
+  Drawer,Toolbar,List,AppBar,CssBaseline,Tab,Typography,Box,Divider,IconButton,
+  ListItem,ListItemIcon,ListItemText,} from '@material-ui/core';
+
 import clsx from 'clsx';
-import Divider from '@material-ui/core/Divider';
 import MenuIcon from '@material-ui/icons/Menu';
-import IconButton from '@material-ui/core/IconButton';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
 import AllInboxIcon from '@material-ui/icons/AllInbox';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 import AssignmentReturnedIcon from '@material-ui/icons/AssignmentReturned';
 import AssignmentInd from '@material-ui/icons/AssignmentInd';
 import GroupIcon from '@material-ui/icons/Group';
 import AssignmentLateIcon from '@material-ui/icons/AssignmentLate';
-import PlaylistAddIcon from '@material-ui/icons/PlaylistAdd';
 import SettingsIcon from '@material-ui/icons/Settings';
 
 
-import DialogList from './../Chat/Dialoglist';
-import Todos from './../Todo/Todos';
-import { Settings } from './DrawerOptions/index';
+import DialogList from './../Dialogs/Dialoglist';
+import Tasks from './../Tasks/Tasks';
+import { Settings, CreateTask } from './DrawerOptions/index';
+import Welcomeback  from './Welcomeback/welcomeback';
+import Loading  from './Loading/Loading';
 
 const drawerWidth = 210
 
@@ -133,7 +122,8 @@ const useStyles = makeStyles(theme => ({
   },
   customToolbar: {
     color: 'rgb(253, 253, 252)',
-    minWidth:'24px'
+    minWidth:'24px',
+    width:'24px'
   },
   content: {
     flexGrow: 1,
@@ -198,7 +188,7 @@ const Template = (props) => {
           </IconButton>
           <div className ={classes.noshadow}>
 
-              <Link to="/todos" activeStyle={{color: 'red'}}  className={classes.link}>
+              <Link to="/tasks" activeStyle={{color: 'red'}}  className={classes.link}>
               <Tab label="Задачи" className={classes.tabeeee}   />
               </Link>
 
@@ -252,7 +242,7 @@ const Template = (props) => {
             {[ 'Создать задачу', 'Все задачи', 'Архив',].map((text, index) => (
               <ListItem button key={text}>
                 <ListItemIcon className={classes.customToolbar}>
-                  {index === 0 && <PlaylistAddIcon /> }
+                  {index === 0 && <CreateTask /> }
                   {index === 1 && <AllInboxIcon /> }
                   {index === 2 && <AssignmentReturnedIcon /> }
                 </ListItemIcon>
@@ -287,7 +277,7 @@ const Template = (props) => {
         <main className={classes.content}>
           <div className={classes.toolbar} />
           <Switch>
-            <Route  path= '/todos' component={Todos} />
+            <Route  path= '/tasks' component={Tasks} />
             <Route exact path= '/dialogs' component={DialogList} />
 
             <Route  path= '/settings' component={Settings} />

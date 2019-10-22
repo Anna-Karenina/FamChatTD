@@ -3,12 +3,12 @@ import thunk from 'redux-thunk'
 import dialogs from './reducers/dialogs'
 import user from './reducers/user'
 import message from './reducers/message'
-import todo from './reducers/todo'
+import tasks from './reducers/tasks'
 
 let bigfvckingreducer = combineReducers({
   dialogs,
   user,
-  todo,
+  tasks,
   message,
 
 });

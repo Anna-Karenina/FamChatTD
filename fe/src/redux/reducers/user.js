@@ -12,6 +12,11 @@ export default (state = initstate, { type , payload }) =>{
         data: payload,
         isAuth: !!window.localStorage.token,
       }
+    case 'USER:SET_USERS_DATA':
+      return {
+        ...state,
+        users: payload,
+      }
     case 'USER:SET_IS_AUTH':
       return {
         ...state,

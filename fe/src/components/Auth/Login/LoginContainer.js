@@ -9,47 +9,46 @@ const LoginForm = withFormik ({
   mapPropsToValues: () => ({ email: '', password: '' }),
   validate: (values, touched) => {
     let errors = {};
-    let variants =''
-    let client = {}
-
     if (!values.email) {
       errors.email = 'Обязательно'
-      client.message = 'Обязательно'
-      variants = 'warning'
     } else if (
       !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(
         values.email
       )
     ) {
-      errors.email = 'Неверный формат'
-      client.message  = 'Неверный формат'
-      variants = 'warning'
+      errors.email = 'Здесь должна быть почта'
     }
     if(!values.password && !touched.password) {
       errors.password = 'Ввидите пароль!'
-      client.message = 'Ввидите пароль!'
-      variants = 'warning'
     }
 
-    return( errors ,variants, client )
+    return( errors )
   },
 
   handleSubmit: (values,  { setSubmitting, setStatus, props }) => {
+    values.email.toLowerCase()
     props.fetchUserLogin(values)
       .then((data)=>{
+console.log(data)
+          setStatus(data.payload.variants)
           setSubmitting(false)
-          setStatus(props.statusError)
         }
-      ).catch(()=>{
+      ).catch(err => {
+        console.log(err)
+        setStatus()
         setSubmitting(false)
         })
-  },validateOnChange: true, validateOnBlur: false,
+  },
+  validateOnChange: true,
+  validateOnBlur: false,
   displayName: 'LoginForm',
 })(Login);
 
+
+
 const mapStateToProps = (state) =>{
 return{
-  statuse : state.user.data.status,
+  status : state.user.data.status,
   serverMessageError : state.user.data.message,
   variants: state.user.data.variants,
   }

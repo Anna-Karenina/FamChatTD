@@ -1,13 +1,15 @@
 import React from 'react'
 
-import styled from './../Login.module.css'
+import styled from './../Auth.module.css'
+
+import IconButton from '@material-ui/core/IconButton';
 
 import AlternateEmailIcon from '@material-ui/icons/AlternateEmail';
 import ErrorOutlineIcon from '@material-ui/icons/ErrorOutline';
-import IconButton from '@material-ui/core/IconButton';
 import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
 
 const EmailInput = React.memo( (props) => {
+  console.log(props)
   const {
     values,
     touched,
@@ -44,6 +46,7 @@ const EmailInput = React.memo( (props) => {
         errors[id] &&
         touched[id] && (
           <IconButton
+            onClick={()=>{alert(errors[id])}}
             title= "Не верный формат почты"
             color="secondary"
             className={styled.eror}

@@ -1,6 +1,6 @@
 import React from 'react'
 import { Route  } from 'react-router-dom'
-import styled from './Login.module.css'
+import styled from './Auth.module.css'
 import LoginContainer from './Login/LoginContainer';
 import RegistrationContainer from './Registration/RegistrationContainer';
 import ForgetPass from './ForgetPass/ForgetPass';

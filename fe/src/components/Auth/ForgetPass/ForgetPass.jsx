@@ -1,13 +1,17 @@
 import React from 'react'
 
-import {RegForg, IButton, LoginInput} from './../components/index';
+import {
+  RestoreRegistation,
+  IButton,
+  EmailInput
+} from './../components/index';
 
 const ForgetPass = (props) => {
   return (
     <>
-    <LoginInput text="Логин или email" id="mailforget"/>
+    <EmailInput {...props} id ="email"  placeholder='email'  />
     <IButton text="Напомнить"/>
-    <RegForg />
+    <RestoreRegistation />
     </>
   )
 }

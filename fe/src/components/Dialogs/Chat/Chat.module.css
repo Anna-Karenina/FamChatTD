@@ -17,6 +17,7 @@
   min-height: 9%;
   max-height: 9%;
   width: 100vw;
+  z-index: 1
 }
 .dialogHeader a {
   text-decoration: none;
@@ -24,7 +25,7 @@
 }
 
 .partnerName{
-  width: 34%;
+  width: 40%;
   margin-left: 3%;
 
 }

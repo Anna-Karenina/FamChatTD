@@ -11,9 +11,17 @@ const Actions = {
   },
   fetchUserData: () => dispatch => {
     userApi.getMe().then(({ data }) => {
-      const ulid = data.id
-        window.localStorage["ulid"] = ulid;
-      dispatch(Actions.setUserData(data));
+        if(data === null){
+          return (
+            delete window.localStorage.token,
+            delete window.localStorage.ulid
+            )
+        }else{
+          const ulid = data.id
+          window.localStorage["ulid"] = ulid;
+        dispatch(Actions.setUserData(data));
+        }
+
     });
   },
   fetchUserLogin: (postData) => dispatch => {
@@ -39,7 +47,24 @@ const Actions = {
           dispatch(Actions.fetchUserDataRepeat(response.data ))
         }
       })
-    }
+    },
+    setUsersData: data => ({
+      type: "USER:SET_USERS_DATA",
+      payload: data
+    }),
+    fetchAllUsers: () => dispatch => {
+      return userApi.getAllUsers().then(({data}) => {
+        data.map(i =>  (i.label = i.name,  i.key=i._id, i.value=i))
+        console.log(data)
+        dispatch(Actions.setUsersData(data))
+      })
+    },
+    fetchAllUsersForNewDialogs: () => dispatch => {
+      return userApi.getAllUsers().then(({data}) => {
+        let newdata = data.filter(i => i._id !== window.localStorage.ulid)
+        dispatch(Actions.setUsersData(newdata))
+      })
+    },
 
   };
   export default Actions

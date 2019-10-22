@@ -72,8 +72,8 @@ function MySnackbarContentWrapper(props) {
 
 
 
-export default function CustomizedSnackbars(props) {
-  const open = !!props.statuse
+export default function Notification(props) {
+  const open = !!props.status || !!props.statusError
   const errorMessage = props.serverMessageError || 'Регистрация прошла успешно' || props.client.message
   let variants=props.variants || props.status
   console.log(props)

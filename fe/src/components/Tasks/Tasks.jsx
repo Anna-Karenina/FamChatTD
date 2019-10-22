@@ -1,0 +1,85 @@
+import React from 'react';
+import OneTodo from './OneTodo';
+import {DragDropContext, Droppable} from 'react-beautiful-dnd';
+import { connect } from "react-redux";
+import { tasksActions } from "./../../redux/actions/index";
+
+
+const Columntodos = (props) => {
+  console.log(props)
+    return (
+
+      <Droppable droppableId={props.column.id}>
+        {provided => (
+          <div
+            ref={provided.innerRef}
+            {...provided.droppableProps}>
+            {props.tasks.map((m, index) =>
+              <OneTodo
+                index = {index}
+                id ={m.id}
+                title={m.title}
+                interval={m.interval}
+                towhomisaddressed={m.towhomisaddressed}
+                author={m.author}
+                priority={m.priority}
+                key = {m.id}
+                discription={m.discription} />)}
+                {provided.placeholder}
+              </div>
+            )}
+          </Droppable>
+        )
+    }
+
+
+    class Tasks extends React.Component {
+    state = this.props
+    onDragEnd = result => {
+      const {destination, source, draggableId} = result
+      if(!destination){
+        return;
+      }
+      if (
+        destination.droppableId === source.droppableId && destination.index === source.index
+      ) {
+          return
+        }
+      const column = this.state.columns[source.droppableId]
+
+      const newTaskIds = Array.from(column.taskIds)
+      newTaskIds.splice(source.index, 1)
+      newTaskIds.splice(destination.index, 0, draggableId)
+
+      const newColumn = {
+      ...column,
+        taskIds: newTaskIds,
+        }
+
+      const newState= {
+        ...this.state,
+        columns: {
+          ...this.state.columns,
+          [newColumn.id]: newColumn,
+        },
+      }
+      this.setState(newState)
+    }
+    render () {
+      return (
+        <DragDropContext onDragEnd={this.onDragEnd}>
+          {this.props.tasks===undefined ?
+            <div>1</div>
+            :this.state.columnOrder.map(columnId => {
+          const column = this.state.columns[columnId];
+          const tasks = column.taskIds.map(taskId => this.state.tasks[taskId])
+
+          return <Columntodos key={column.id} column = {column} tasks = {tasks} />
+          })}
+        </DragDropContext>
+    )}}
+
+export default connect(
+  ({ tasks }) => tasks,
+  (tasksActions)
+)(Tasks);

@@ -1,9 +1,9 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-import styled from './../Login.module.css'
+import styled from './../Auth.module.css'
 
-const RegForg = (props) => {
+const RestoreRegistation = (props) => {
   return(
   <div className={styled.registration}>
     <Link to="/Registration">Регистрация</Link>
@@ -12,4 +12,4 @@ const RegForg = (props) => {
  )
 }
 
-export default RegForg
+export default RestoreRegistation

@@ -10,7 +10,9 @@ const redir= () => {
 }
 
 const RegistrationForm = withFormik({
-  mapPropsToValues: () => ({ email: '', newusername: '' , regpassword:'', regpasswordrepeat: '' }),
+  mapPropsToValues: () => (
+    { email: '', newusername: '' , regpassword:'', regpasswordrepeat: '' }
+  ),
   validate: values => {
     let errors = {};
 
@@ -21,11 +23,11 @@ const RegistrationForm = withFormik({
         values.email
       )
     ) {
-      errors.email = 'Неверный формат';
+      errors.email = 'Неверный формат, укажите почту';
     }
 
     if(!values.newusername){
-      errors.newusername = 'Обязательно';
+      errors.newusername = 'Обязательно Ввести имя и фамилию';
     }
 
     if (!values.regpassword) {
@@ -48,14 +50,17 @@ const RegistrationForm = withFormik({
   },
 
   handleSubmit: (values,  { setSubmitting, setStatus, props }) => {
-
+    values.email.toLowerCase()
     props.fetchUserRegister(values)
       .then((data)=>{
-        setStatus('success')
+          console.log(data)
         setSubmitting(false)
-        redir()
+        if(data.status === 'error'){
+          return setStatus(data.status)
+        } else {
+          props.history.push('/login');
         }
-      )
+      })
       .catch(err=>{
       setStatus(props.statusError)
         })

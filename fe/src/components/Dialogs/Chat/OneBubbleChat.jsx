@@ -2,10 +2,11 @@ import React from 'react'
 
 import cl from './Chat.module.css';
 
+//
 // import format from "date-fns/format";
 // import isToday from "date-fns/isToday";
-// import parse from 'date-fns/parse'
-
+//  import parseISO from 'date-fns/parse'
+//
 // const getMessageTime = createtime => {
 //   if (isToday(createtime)) {
 //     return format(createtime, "HH:mm");
@@ -16,8 +17,10 @@ import cl from './Chat.module.css';
 
 
 const OneBubbleChat = (props) =>{
- const {dialogAuthor, text, messageAuthor ,createdAt} = props
+ const {text, messageAuthor ,createdAt} = props
  const isMe =  (window.localStorage.ulid === messageAuthor)
+  // const createtime = (parseISO(createdAt), 1)
+ console.log(props)
   return(
     <div
       className = { isMe ?

@@ -1,13 +1,13 @@
 import React from 'react'
 
-import styled from './../Login.module.css'
+import styled from './../Auth.module.css'
 
 import PersonIcon from '@material-ui/icons/Person';
 import ErrorOutlineIcon from '@material-ui/icons/ErrorOutline';
 import IconButton from '@material-ui/core/IconButton';
 import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
 
-const LoginInput = (props) => {
+const FullNameInput = (props) => {
   const {
    values,
    touched,
@@ -44,6 +44,7 @@ const LoginInput = (props) => {
           <IconButton
             title= "Не верный формат почты"
             color="secondary"
+            onClick={()=>{alert(errors[id])}}
             className={styled.eror}
             aria-label="errorr">
             <ErrorOutlineIcon />
@@ -53,4 +54,4 @@ const LoginInput = (props) => {
   )
 }
 
-export default LoginInput
+export default FullNameInput

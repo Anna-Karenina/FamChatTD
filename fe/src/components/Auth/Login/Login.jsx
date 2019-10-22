@@ -1,12 +1,12 @@
 import React from 'react'
-import {  Form } from 'formik';
+import { Form } from 'formik';
 
 import {
-  RegForg,
+  RestoreRegistation,
   EmailInput,
   PassInput,
   IButton,
-  SimpleSnackbar }  from './../components/index';
+  Notification }  from './../components/index';
 
 
 
@@ -17,8 +17,8 @@ const Login = (props) => {
       <EmailInput {...props} id ="email"  placeholder='email'  />
       <PassInput placeholder="Пароль" id='password' {...props}  />
       <IButton placeholder="Войти" {...props}  />
-      <RegForg />
-      <SimpleSnackbar {...props} />
+      <RestoreRegistation />
+      <Notification {...props} />
     </Form>
   )
 }

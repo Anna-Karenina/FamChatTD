@@ -15,7 +15,7 @@ export default (state = initstate, { type, payload }) => {
       return {
         ...state,
         currentDialogId: payload.id,
-        currentPartner: payload.partner
+        currentPartner: payload.choosenPartner
       };
     default:
       return state;

@@ -30,7 +30,8 @@ const IButton = (props) => {
       variant="contained"
       color="primary"
       disabled={!isValid || isSubmitting }
-      className={classes.button} type="submit"
+      className={classes.button}
+      type="submit"
       onClick={handleSubmit}
     >
         {placeholder}

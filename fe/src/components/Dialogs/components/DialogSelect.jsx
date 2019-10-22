@@ -1,8 +1,10 @@
 import React from 'react'
 import Select from 'react-select';
-import cl from './OneChat/Chat.module.css';
+import cl from './../Chat/Chat.module.css'
 
-const DialogFind = (props) => {
+const DialogSelect = (props) => {
+  console.log(props)
+  props.options.map(i => i.label = i.partner.name)
 //const [option, setOption] = useState(props.options);
 //const [isLoading, setIsLoading] = useState(false)
 //isLoading={isLoading}
@@ -13,9 +15,9 @@ const  handleChange = (newValue: any, actionMeta: any) => {
   return (
     <Select
       className = {cl.cont}
-      placeholder ={'Все пользователи'}
-      name="DialogFind"
-      options ={'тут будут все пользователи'}
+      placeholder ={'Имя чата'}
+      name="DialogList"
+      options ={props.options}
       isClearable={true}
       isSearchable={true}
       onChange={handleChange}
@@ -23,9 +25,4 @@ const  handleChange = (newValue: any, actionMeta: any) => {
   )
 }
 
-export default DialogFind
-
-
-
-
-// (el =>el.label=el.name
+export default DialogSelect
