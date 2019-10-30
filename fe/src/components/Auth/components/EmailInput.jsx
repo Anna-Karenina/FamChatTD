@@ -9,7 +9,6 @@ import ErrorOutlineIcon from '@material-ui/icons/ErrorOutline';
 import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
 
 const EmailInput = React.memo( (props) => {
-  console.log(props)
   const {
     values,
     touched,
@@ -21,7 +20,7 @@ const EmailInput = React.memo( (props) => {
   } = props;
   return (
     <div className ={
-        errors[id] && touched[id] ?
+        errors[id] && touched[id] ? 
         (styled.logininputcontainer+' '+styled.logininputcontainerborder) : (styled.logininputcontainer)
       }>
       <AlternateEmailIcon className = {styled.icon}/>

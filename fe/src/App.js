@@ -14,7 +14,7 @@ const App = (props) => {
    <>
     { isAuth ?  <Redirect to="/app"/> :<Redirect to="/login"/>  }
 
-   <Route exact path= {['/', "/login" , '/Registration', '/Registration/verification', '/ForgetPass']} component={isAuth ? Template : Auth } />
+   <Route exact path= {['/', "/login" , '/registration', '/registration/verification', '/forgetpass']} component={isAuth ? Template : Auth } />
 
 
 

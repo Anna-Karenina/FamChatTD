@@ -5,6 +5,6 @@ export default{
   newMessage: (text, dialogId) =>
   axios.post("/messages", {
     text: text,
-    dialog_id: dialogId
+    dialog_id: dialogId,
   })
 }

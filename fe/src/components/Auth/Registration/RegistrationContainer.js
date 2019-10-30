@@ -1,18 +1,13 @@
-import React from 'react'
 import { connect } from 'react-redux'
 import { withFormik } from 'formik';
 import Registration from './Registration';
 import {userActions} from './../../../redux/actions/index';
-import  { Redirect } from "react-router-dom";
-
-const redir= () => {
-  return <Redirect to="/verification" />
-}
 
 const RegistrationForm = withFormik({
   mapPropsToValues: () => (
-    { email: '', newusername: '' , regpassword:'', regpasswordrepeat: '' }
-  ),
+  {
+     email: '', newusername: '' , regpassword:'', regpasswordrepeat: ''
+   }),
   validate: values => {
     let errors = {};
 
@@ -27,7 +22,7 @@ const RegistrationForm = withFormik({
     }
 
     if(!values.newusername){
-      errors.newusername = 'Обязательно Ввести имя и фамилию';
+      errors.newusername = 'Обязательно ввести Имя и Фамилию';
     }
 
     if (!values.regpassword) {
@@ -52,18 +47,15 @@ const RegistrationForm = withFormik({
   handleSubmit: (values,  { setSubmitting, setStatus, props }) => {
     values.email.toLowerCase()
     props.fetchUserRegister(values)
-      .then((data)=>{
-          console.log(data)
+      .then((fake)=>{
         setSubmitting(false)
-        if(data.status === 'error'){
-          return setStatus(data.status)
-        } else {
-          props.history.push('/login');
-        }
+        props.history.push('/registration/verification')
+        
+      }).catch(err=>{
+         if(err.status === 'error'){
+           setStatus(err.status)
+         }
       })
-      .catch(err=>{
-      setStatus(props.statusError)
-        })
   },validateOnChange: true, validateOnBlur: false,
   displayName: 'RegistrationForm',
 })(Registration);
@@ -75,8 +67,6 @@ return{
   variants: state.user.data.variants,
   }
 }
-
-
 const mapDispachToProps = (dispatch) =>{
   return {
     fetchUserRegister : (values) => dispatch(userActions.fetchUserRegister(values))

@@ -13,13 +13,13 @@ const CustomSelect = ({users, handleBlur, value,onChange}) => {
         placeholder ='Кому? выбрать из списка'
         id="taskAssignee"
         options={users}
-        multi={true}
+        multi
         onChange={handleChange}
         onBlur={handleBlur}
         value={value}
         name="taskAssignee"
-        isClearable={true}
-        isSearchable={true}
+        isClearable
+        isSearchable
         isMulti
       />
     </>

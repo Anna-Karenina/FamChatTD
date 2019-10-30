@@ -1,4 +1,3 @@
-
 import React, {useState} from 'react';
 import  { Route, NavLink as Link , Switch } from "react-router-dom";
 
@@ -226,10 +225,18 @@ const Template = (props) => {
             {[ 'Новые задачи', 'Командные задачи', 'Мои задачи', 'На расмотрении'].map((text, index) => (
               <ListItem button key={text}>
                 <ListItemIcon className={classes.customToolbar}>
-                  {index  === 0 &&  <AssignmentIcon /> }
+                  <span onClick={()=>alert(text)}>
+                    {index  === 0 &&  <AssignmentIcon />}
+                  </span>
+                  <span onClick={()=>alert(text)}>
                   {index  === 1 &&  <GroupIcon /> }
+                  </span>
+                  <span onClick={()=>alert(text)}>
                   {index  === 2 &&  <AssignmentInd /> }
+                  </span>
+                  <span onClick={()=>alert(text)}>
                   {index  === 3 &&  <AssignmentLateIcon /> }
+                  </span>
                 </ListItemIcon>
                 <ListItemText primary={text} className={classes.listItemText} />
               </ListItem>

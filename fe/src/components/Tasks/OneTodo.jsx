@@ -1,16 +1,23 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import AssigneModal from './AssigneModal'
+
 import clsx from 'clsx';
-import ExpansionPanel from '@material-ui/core/ExpansionPanel';
-import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
-import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
-import ExpansionPanelActions from '@material-ui/core/ExpansionPanelActions';
-import Typography from '@material-ui/core/Typography';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import Button from '@material-ui/core/Button';
-import Divider from '@material-ui/core/Divider';
+import {ExpansionPanel,
+   ExpansionPanelDetails,
+   makeStyles,
+   Divider,
+   Button,
+   Typography,
+   ExpansionPanelSummary,
+   ExpansionPanelActions
+ } from '@material-ui/core';
 import AlertDialog from './alert';
 import {Draggable} from 'react-beautiful-dnd';
+
+
+import  ruLocale  from 'date-fns/locale/ru'
+import formatDistanceStrict from 'date-fns/formatDistanceStrict'
+
 
 
 const useStyles = makeStyles(theme => ({
@@ -28,7 +35,7 @@ const useStyles = makeStyles(theme => ({
   },
   content : {
     display: 'flex',
-    justifyContent: 'space-between'
+    justifyContent: 'space-around',
   },
   details:{
     padding: '0px 2% 5%'
@@ -75,6 +82,10 @@ const useStyles = makeStyles(theme => ({
       textDecoration: 'underline',
     },
   },
+  some:{
+    padding:0,
+    margin:0,
+  },
   priority1:{
     backgroundColor: 'rgba(254, 57, 57, .7)'
   },
@@ -90,11 +101,17 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const OneTodo = (props) => {
-  console.log(props)
-  const {title, discription, interval, towhomisaddressed, author, priority, id , index} = props
-  const classes = useStyles();
-  return (
 
+  const generateNormaldate = isoDate =>{
+    const date = formatDistanceStrict(new Date(isoDate), new Date(),
+    { locale: ruLocale} )
+    return date
+  }
+  console.log(props)
+  const {title, discription, interval, taskAssignee, author, priority, id , index, access} = props
+  const classes = useStyles();
+
+return (
     <Draggable draggableId = {id} index={index}>
       {(provided)=>(
         <div
@@ -106,24 +123,32 @@ const OneTodo = (props) => {
             classes={{root: classes[priority] }}
             >{/* суууукаааа 2 дня!!!! */}
             <ExpansionPanelSummary
-              expandIcon={<ExpandMoreIcon />}
               aria-controls="panel1c-content"
               id="panel1c-header"
-              classes={{content: classes.content}}
+              classes={{content: classes.content, root: classes.some}}
               >
+
               <div className={classes.column}>
-                <Typography
-                  className={classes.heading+ ' ' +classes.boxSettime}>
-                    {interval}
-                </Typography>
                 <Typography className={classes.heading}>
-                  {towhomisaddressed}
+                  {taskAssignee.length < 2  ? taskAssignee
+                  : <AssigneModal taskAssigneeList={taskAssignee} />  }
                 </Typography>
               </div>
+
               <div className={classes.column}>
                 <Typography className={classes.secondaryHeading}>
                   {title}
                 </Typography>
+              </div>
+              <div className={classes.column}>
+              <Typography
+                className={classes.heading}>
+                  dead-line <br/>
+              </Typography>
+              <Typography
+                className={classes.heading+ ' ' +classes.boxSettime}>
+                  {generateNormaldate(interval)}
+              </Typography>
               </div>
             </ExpansionPanelSummary>
             <ExpansionPanelDetails className={classes.details}>
@@ -151,7 +176,13 @@ const OneTodo = (props) => {
               <div className={classes.column}>
                 <AlertDialog label="Выполненно"/>
               </div>
-              <Button size="small">Отменить</Button>
+              {access <= 1  ?
+              <Button size="small"  disabled >
+                Отменить
+              </Button>
+            : <Button size="small"   >
+               Отменить
+              </Button>}
             </ExpansionPanelActions>
           </ExpansionPanel>
         </div>

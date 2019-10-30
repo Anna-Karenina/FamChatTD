@@ -1,15 +1,13 @@
 import React from 'react';
+
 import clsx from 'clsx';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import ErrorIcon from '@material-ui/icons/Error';
 import InfoIcon from '@material-ui/icons/Info';
 import CloseIcon from '@material-ui/icons/Close';
 import { amber, green } from '@material-ui/core/colors';
-import IconButton from '@material-ui/core/IconButton';
-import Snackbar from '@material-ui/core/Snackbar';
-import SnackbarContent from '@material-ui/core/SnackbarContent';
 import WarningIcon from '@material-ui/icons/Warning';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, SnackbarContent, Snackbar, IconButton } from '@material-ui/core';
 
 const variantIcon = {
   success: CheckCircleIcon,
@@ -44,7 +42,7 @@ const useStyles1 = makeStyles(theme => ({
   },
 }));
 
-function MySnackbarContentWrapper(props) {
+const MyNotificationContentWrapper = (props) => {
   const classes = useStyles1();
   const { className, message, onClose, variant, ...other } = props;
   const Icon = variantIcon[variant];
@@ -72,11 +70,10 @@ function MySnackbarContentWrapper(props) {
 
 
 
-export default function Notification(props) {
+const Notification = (props) => {
   const open = !!props.status || !!props.statusError
-  const errorMessage = props.serverMessageError || 'Регистрация прошла успешно' || props.client.message
+  const errorMessage = props.serverMessageError || 'Регистрация прошла успешно' || props.client.message 
   let variants=props.variants || props.status
-  console.log(props)
 
   return (
     <div>
@@ -89,15 +86,13 @@ export default function Notification(props) {
         autoHideDuration={1000}
         onClose={()=>open}
       >
-        <MySnackbarContentWrapper
+        <MyNotificationContentWrapper
           onClose={()=>open}
           variant={variants}
           message={errorMessage}
         />
       </Snackbar>
-
-
-
     </div>
   );
 }
+export default Notification

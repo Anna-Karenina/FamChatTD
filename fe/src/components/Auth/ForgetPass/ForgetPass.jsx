@@ -10,7 +10,7 @@ const ForgetPass = (props) => {
   return (
     <>
     <EmailInput {...props} id ="email"  placeholder='email'  />
-    <IButton text="Напомнить"/>
+    <IButton placeholder="Напомнить"/>
     <RestoreRegistation />
     </>
   )

@@ -16,7 +16,6 @@ import {
 const Registration = props => {
   return (
     <Form style={{width:'100%'}} autoComplete="off">
-
       <EmailInput {...props}  id='email' placeholder='email' p/>
       <FullNameInput {...props} placeholder="Имя Фамилия" id = 'newusername'  />
       <PassInput placeholder="Новый пароль" id='regpassword' {...props}  />

@@ -4,8 +4,8 @@ const initstate = {
                 id : 'task-1',
                 title: 'Помыть пол',
                 discription: 'нужно вымыть пол в гостинной',
-                interval : '1.09.1022',
-                towhomisaddressed : "private",
+                interval : '2019-10-31T11:45:00.000Z',
+                taskAssignee : ["private"],
                 author:'Виктория Соколова',
                 priority: 'priority1'
                 },
@@ -13,16 +13,17 @@ const initstate = {
                 id : 'task-2',
                 title: 'Выкрасить забор',
                 discription: 'нужно выкрасить забор на даче в красный цвет с приминением самых совремненнных технологий',
-                interval: '3.09.2019',
-                towhomisaddressed : "toall", author:'Человек паук',
+                interval: '2019-10-29T11:45:00.000Z',
+                taskAssignee : ["toall"],
+                author:'Человек паук',
                 priority: 'priority2'
                 },
     'task-3': {
                 id : 'task-3',
                 title: 'Собрать конструктор',
                 discription: 'Используя разные детальки из конструктора собрать что-то интересное, самолетик например',
-                interval: '13.11.2017',
-                towhomisaddressed : "toall",
+                interval: '2019-10-29T11:45:00.000Z',
+                taskAssignee : ["Виктория С"],
                 author:'Человек тапочек',
                 priority: 'priority3'
               },
@@ -30,8 +31,8 @@ const initstate = {
                 id : 'task-4',
                 title: 'выкрасить забор',
                 discription: 'нужно выкрасить забор на даче в красный цвет с приминением самых совремненнных технологий',
-                interval: '3.09.2019',
-                towhomisaddressed : "private",
+                interval: '2019-10-29T11:45:00.000Z',
+                taskAssignee : ["private" ,'сука'],
                 author:'Человек паук',
                 priority: 'priority4'
                 },
@@ -39,8 +40,8 @@ const initstate = {
                 id : 'task-5',
                 title: 'Привизите кассовую ленту',
                 discription: 'В нашем ахуенном магазине кончилась кассовая лета нужно быстро найти транспортную компанию которая доставит нам ленту прямо из США, есть варианты: самолет, ж/д под океаном и морем',
-                interval: '3.09.2019',
-                towhomisaddressed : "private",
+                interval: '2019-10-29T11:45:00.000Z',
+                taskAssignee : ["private" ,'сука'],
                 author:'Человек паук',
                 priority: 'priority1'
                 },
@@ -58,24 +59,25 @@ const initstate = {
 export default (state = initstate, { type , payload }) =>{
   switch (type) {
     case 'TASKS:SET_ITEMS':
+console.log(payload)
       return {
           ...state,
             tasks:  {
             ...state.tasks,
-          'task-6': {
-                    id : 'task-6' ,
+          [payload._id]: {
+                    id : payload._id ,
                     title: payload.taskName,
                     discription: payload.taskDiscription,
-                    interval : '1.09.1022',
-                    towhomisaddressed : 'private',
-                    author:'Виктория Соколова',
-                    priority: payload.priority
+                    interval : payload.datepickerinline,
+                    taskAssignee : payload.taskAssignee,
+                    author: payload.taskCreator.name,
+                    priority: payload.taskPriority
 
           },
         },
           columns: {
             ...state.columns,
-            taskIds :state.columns['column-1'].taskIds.push('task-6')
+            taskIds :state.columns['column-1'].taskIds.push(payload._id)
           },
       }
 

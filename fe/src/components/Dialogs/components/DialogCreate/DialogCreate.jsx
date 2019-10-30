@@ -4,16 +4,13 @@ import {  userActions,  } from "./../../../../redux/actions/index";
 import { dialogsApi } from './../../../../core/api/index'
 import Select from 'react-select';
 import { withFormik, Form } from 'formik';
+import { Notification } from './../../../Auth/components/index'
 // import Loading from './../Template/Loading/Loading';
 
 
-import { makeStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import { TextField } from '@material-ui/core';
+import { makeStyles, Button,
+  Dialog, DialogActions,
+  DialogContent, DialogTitle, TextField } from '@material-ui/core';
 import PostAddIcon from '@material-ui/icons/PostAdd';
 
 
@@ -37,7 +34,7 @@ const useStyles = makeStyles(theme => ({
 const DialogCreate = ({ users, fetchAllUsersForNewDialogs, ...props,}) => {
   const classes = useStyles();
   const [state, setState] = useState({ open: false});
-  const {handleChange, handleSubmit, values, handleBlur } = props
+  const {handleChange, handleSubmit, values, handleBlur, status} = props
 
 console.log(users, props)
 
@@ -102,20 +99,30 @@ return(
       </DialogActions>
     </Dialog>
     </Form>
+    <Notification status={status} serverMessageError={props.serverMessageError} />
   </div>
 )
 }
 
 const EnhancedDialogCreate = withFormik({
 
-  handleSubmit: (values, { setSubmitting }) => {
+  handleSubmit: (values, {setSubmitting, setStatus, props }) => {
+    console.log(props)
     setTimeout(() => {
       dialogsApi
         .newDialog({
           partner: values._id,
           text: values.newMessage
-        })
-
+        }).then((data)=>{
+          if(data.status) {
+            setStatus('error')
+          } else {
+            setStatus('success')
+          }
+        }
+      ).catch(err => {
+        console.log(err)
+          })
       setSubmitting(false);
     }, 1000);
   },

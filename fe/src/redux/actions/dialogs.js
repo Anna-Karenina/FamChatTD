@@ -5,6 +5,13 @@ const Actions = {
     type: "DIALOGS:SET_ITEMS",
     payload: items
   }),
+  updateReadedStatus: ({ userId, dialogId }) => ({
+    type: 'DIALOGS:LAST_MESSAGE_READED_STATUS',
+    payload: {
+      userId,
+      dialogId,
+    },
+  }),
   setCurrentDialogId: currentDialog => ({
     type: "DIALOGS:SET_CURRENT_DIALOG_ID",
     payload: currentDialog

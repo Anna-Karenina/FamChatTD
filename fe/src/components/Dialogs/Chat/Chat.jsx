@@ -53,9 +53,9 @@ const ChatContainer  = (props) => {
     return () =>{ socket.removeListener("SERVER:NEW_MESSAGE", onNewMessage)};
   }, [currentDialogId]);
 
-  useEffect(() => {
-    messagesRef.current.scrollTo(0, 999999);
-  }, [items]);
+  // useEffect(() => {
+  //   messagesRef.current.scrollTo(0, 999999);
+  // }, [items]);
 
   let list = items.map(i =>
     <OneBubbleChat
@@ -64,6 +64,7 @@ const ChatContainer  = (props) => {
       dialogAuthor = {i.dialog.author}
       messageAuthor = {i.user._id}
       createdAt ={i.createdAt}
+      readed={i.readed}
       />
   )
   return (

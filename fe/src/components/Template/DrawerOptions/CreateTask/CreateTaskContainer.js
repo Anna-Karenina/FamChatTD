@@ -8,7 +8,7 @@ const CreateTaskForm = withFormik ({
   mapPropsToValues: () => ({
       taskName:  '',
       taskAssignee: '',
-      datepickerinline: '',
+      datepickerinline:  new Date() ,
       timepicker: '',
       taskDiscription: '',
       priority: '',
@@ -32,21 +32,28 @@ const CreateTaskForm = withFormik ({
   //   return( errors ,variants, client )
   // },
 
-  handleSubmit: (values, { setSubmitting,props }) => {
-console.log(values)
+  handleSubmit: (values, { setSubmitting, resetForm, props }) => {
     const payload = {
       ...values,
       taskAssignee: values.taskAssignee,
     };
     setTimeout(() => {
-      console.log(payload, null, 2);
+      console.log(payload);
       props.createTask({payload})
+      resetForm()
       setSubmitting(false);
     }, 1000);
   },
   displayName: 'CreateTaskForm',
 })(CreateTask);
 
+const mapStateToProps = (state) =>{
+return{
+  users : state.user.users,
+  authorid :  state.user.data._id,
+  athorname :state.user.data.name,
+  }
+}
 const mapDispachToProps = (dispatch) =>{
   return {
     fetchAllUsers : (values) => dispatch(userActions.fetchAllUsers(values)),
@@ -55,7 +62,7 @@ const mapDispachToProps = (dispatch) =>{
 }
 
 const CreateTaskContainer = connect (
-  ({ user }) => ({users: user.users}),
+  mapStateToProps ,
     mapDispachToProps
 )(CreateTaskForm)
 

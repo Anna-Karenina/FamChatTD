@@ -6,8 +6,8 @@ import socket from "./../../core/socket"
 import OneDialogElement from './OneDialogElement'
 
 
-import { makeStyles } from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
+
+import { makeStyles, Paper } from '@material-ui/core';
 
 import {
   DialogSelect,
@@ -23,8 +23,8 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const DialogList  = (props) => {
-
-const {fetchDialogs, items} = props
+  console.log(props)
+  const { fetchDialogs, items, updateReadedStatus } = props
 
   const onNewDialog = () => {
     fetchDialogs();
@@ -35,9 +35,13 @@ const {fetchDialogs, items} = props
       if (items.length) {
         fetchDialogs();
       }
-
-    socket.on("SERVER:DIALOG_CREATED", onNewDialog);
-    return () => socket.removeListener("SERVER:DIALOG_CREATED", onNewDialog);
+      socket.on('SERVER:DIALOG_CREATED', onNewDialog);
+      socket.on('SERVER:NEW_MESSAGE', onNewDialog);
+      socket.on('SERVER:MESSAGES_READED', updateReadedStatus);
+      return () => {
+        socket.removeListener('SERVER:DIALOG_CREATED', onNewDialog);
+        socket.removeListener('SERVER:NEW_MESSAGE', onNewDialog);
+      }
   },[]);
 
   let list = orderBy(items , ['unreaded'], ['desc']).map(i =>
@@ -65,6 +69,7 @@ const {fetchDialogs, items} = props
           <DialogCreate />
         </div>
       </Paper>
+
       <div style={{overflow: 'scroll'}}>
        { list }
       </div>

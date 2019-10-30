@@ -1,25 +1,21 @@
 import React, {useState, useEffect} from 'react'
 import 'date-fns'
-import { Form } from 'formik'
+import { Form, Field } from 'formik'
+
+import {MuiPickersUtilsProvider} from "@material-ui/pickers";
 
 import {GreenRadio,RedRadio,YellowRadio,OrangeRadio}  from './ColoredRadio'
 import  CustomSelect   from './CustomSelect'
+import  CustomDatePicker   from './CustomDataPickers'
 import {
-  Button,
-  Dialog,
-  makeStyles,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
+  Button, Dialog,
+  makeStyles, DialogActions,
+  DialogContent, DialogTitle,
   TextField } from '@material-ui/core';
 
   import PostAddIcon from '@material-ui/icons/PostAdd';
   import DateFnsUtils from '@date-io/date-fns'
-  import {
-    MuiPickersUtilsProvider,
-    KeyboardTimePicker,
-    KeyboardDatePicker,
-  } from '@material-ui/pickers';
+
 
   const useStyles = makeStyles(theme => ({
     root:{
@@ -78,11 +74,8 @@ import {
     const [selectedValue, setSelectedValue] = useState('a');
     const [state, setState] = useState({ open: false });
     const [users, setUsers] = useState();
-    const [selectedDate, setSelectedDate] = useState(new Date());
 
-    const handleDateChange = date => {
-      setSelectedDate(date);
-    };
+
 
     const handleClickOpen = () => {
       setState({ ...state, open: true });
@@ -108,7 +101,6 @@ import {
       }
     },[props.users]);
 
-    console.log(props)
     return (
       <>
       <Button onClick={handleClickOpen}
@@ -145,45 +137,15 @@ import {
             <CustomSelect
               className = {classes.formControlSelect}
               onChange={setFieldValue}
-              value={values}
+              value={values.taskAssignee}
               users={users}
               />
 
-            <div style={{display:'flex'}}>
+            <div>
               <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                <KeyboardDatePicker
-                  style={{
-                    border: '1px solid rgba(0, 0, 0, 0.3)',
-                    borderRadius: '5px',
-                    marginRight: '5px'
-                  }}
-                  disableToolbar
-                  variant="standart"
-                  format="dd/MM/yyyy"
-                  margin="normal"
-                  id="datepickerinline"
-                  label="Дата выполнения"
-                  value={selectedDate}
-                  onChange={handleDateChange}
-                  KeyboardButtonProps={{
-                    'aria-label': 'change date',
-                  }}
-                  />
-                <KeyboardTimePicker
-                  style={{
-                    border: '1px solid rgba(0, 0, 0, 0.3)',
-                    borderRadius: '5px',
-                    marginLeft: '5px'
-                  }}
-                  margin="normal"
-                  id="timepicker"
-                  label="Время выполнения"
-                  value={selectedDate}
-                  onChange={handleDateChange}
-                  KeyboardButtonProps={{
-                    'aria-label': 'change time',
-                  }}
-                  />
+                <Field
+                  component={CustomDatePicker}
+                  name="datepickerinline" />
               </MuiPickersUtilsProvider>
             </div>
             <TextField
@@ -241,7 +203,7 @@ import {
             <Button
               color="primary"
               type="submit"
-              onClick={handleSubmit, handleClose}
+              onClick={handleSubmit , handleClose}
               >
               Создать
             </Button>

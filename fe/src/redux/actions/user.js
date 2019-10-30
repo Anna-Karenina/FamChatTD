@@ -48,13 +48,9 @@ const Actions = {
         }
       })
     },
-    setUsersData: data => ({
-      type: "USER:SET_USERS_DATA",
-      payload: data
-    }),
     fetchAllUsers: () => dispatch => {
       return userApi.getAllUsers().then(({data}) => {
-        data.map(i =>  (i.label = i.name,  i.key=i._id, i.value=i))
+        data.map(i =>  (i.label = i.name,  i.key=i._id, i.value=i.name))
         console.log(data)
         dispatch(Actions.setUsersData(data))
       })

@@ -21,6 +21,7 @@ const  handleChange = (newValue: any, actionMeta: any) => {
       isClearable={true}
       isSearchable={true}
       onChange={handleChange}
+      noOptionsMessage={() => "Нету открытых чатов"}
     />
   )
 }

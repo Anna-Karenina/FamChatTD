@@ -8,7 +8,6 @@ import { tasksActions } from "./../../redux/actions/index";
 const Columntodos = (props) => {
   console.log(props)
     return (
-
       <Droppable droppableId={props.column.id}>
         {provided => (
           <div
@@ -20,10 +19,11 @@ const Columntodos = (props) => {
                 id ={m.id}
                 title={m.title}
                 interval={m.interval}
-                towhomisaddressed={m.towhomisaddressed}
+                taskAssignee={m.taskAssignee}
                 author={m.author}
                 priority={m.priority}
                 key = {m.id}
+                access = {props.access}
                 discription={m.discription} />)}
                 {provided.placeholder}
               </div>
@@ -33,17 +33,17 @@ const Columntodos = (props) => {
     }
 
 
-    class Tasks extends React.Component {
-    state = this.props
-    onDragEnd = result => {
-      const {destination, source, draggableId} = result
-      if(!destination){
-        return;
-      }
-      if (
-        destination.droppableId === source.droppableId && destination.index === source.index
+class Tasks extends React.Component {
+  state = this.props
+  onDragEnd = result => {
+  const {destination, source, draggableId} = result
+    if(!destination){
+      return;
+    }
+    if (
+      destination.droppableId === source.droppableId && destination.index === source.index
       ) {
-          return
+        return
         }
       const column = this.state.columns[source.droppableId]
 
@@ -66,6 +66,8 @@ const Columntodos = (props) => {
       this.setState(newState)
     }
     render () {
+
+        console.log(this.props)
       return (
         <DragDropContext onDragEnd={this.onDragEnd}>
           {this.props.tasks===undefined ?
@@ -74,12 +76,20 @@ const Columntodos = (props) => {
           const column = this.state.columns[columnId];
           const tasks = column.taskIds.map(taskId => this.state.tasks[taskId])
 
-          return <Columntodos key={column.id} column = {column} tasks = {tasks} />
+          return <Columntodos key={column.id} column = {column} tasks = {tasks} access={this.props.access} />
           })}
         </DragDropContext>
     )}}
 
+    const mapStateToProps = (state) =>{
+    return{
+      ...state.tasks,
+      access: state.user.data.hierarchy
+
+      }
+    }
+
 export default connect(
-  ({ tasks }) => tasks,
+  mapStateToProps,
   (tasksActions)
 )(Tasks);

@@ -8,7 +8,6 @@ import IconButton from '@material-ui/core/IconButton';
 import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
 
 const PassInput = (props) => {
-  console.log(props)
   const {
    values,
    touched,

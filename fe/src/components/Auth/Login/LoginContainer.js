@@ -21,7 +21,6 @@ const LoginForm = withFormik ({
     if(!values.password && !touched.password) {
       errors.password = 'Ввидите пароль!'
     }
-
     return( errors )
   },
 
@@ -29,13 +28,11 @@ const LoginForm = withFormik ({
     values.email.toLowerCase()
     props.fetchUserLogin(values)
       .then((data)=>{
-console.log(data)
-          setStatus(data.payload.variants)
+          setStatus(data.payload.status)
           setSubmitting(false)
         }
       ).catch(err => {
-        console.log(err)
-        setStatus()
+        setStatus('error')
         setSubmitting(false)
         })
   },
