@@ -3,15 +3,23 @@ import express from 'express'
 import socket from 'socket.io'
 import { updateLastSeen, checkAuth } from "../middleware";
 import { loginValidation } from "../libz/validations";
+//import multer from "./multer";
 
-import { UserCtr, DialogCtr, MessageCtr } from "../controllers";
 
+import { UserCtr,
+ DialogCtr,
+ MessageCtr,
+ TaskCtr,
+ UploadingCtr
+ } from "../controllers";
 
 
 const createRoutes =(app: express.Express, io: socket.Server ) =>{
-  const UserController = new UserCtr(io);
   const DialogController = new DialogCtr(io);
+  const UserController = new UserCtr(io);
   const MessageController = new MessageCtr(io);
+  const TaskController = new TaskCtr(io);
+  const UploadingController = new UploadingCtr();
 
   app.use(bodyParser.json())
   app.use(checkAuth)
@@ -19,20 +27,27 @@ const createRoutes =(app: express.Express, io: socket.Server ) =>{
 
 
   app.get('/user/me', UserController.getMe)
+  app.get("/user/verify", UserController.verify);
   app.post('/user/login', loginValidation, UserController.login)
   app.post('/user/registration', UserController.create)
-  app.delete('/user/:id', UserController.delete)
+  app.get("/user/allUsers", UserController.finAllUsers)
   app.get('/user/:id', UserController.show)
-  app.get("/user/allUsers", UserController.findUsers);
+  app.post('/user', UserController.update)
+  app.delete('/user/:id', UserController.deleteUser)
 
 
   app.get('/dialogs', DialogController.index)
-  app.delete('/dialogs/:id', DialogController.delete)
   app.post('/dialogs', DialogController.create)
+  app.delete('/dialogs/:id', DialogController.deleteDialog)
 
   app.get('/messages', MessageController.index)
   app.post('/messages', MessageController.create)
   app.delete('/messages/:id', MessageController.delete)
+
+  app.get('/tasks/getall', TaskController.index )
+  app.post('/tasks', TaskController.create )
+
+//  app.post("/uploaded", multer.single("file"), UploadingController.create);
 }
 
 export default createRoutes

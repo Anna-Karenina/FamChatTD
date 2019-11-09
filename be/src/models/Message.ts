@@ -12,7 +12,7 @@ export interface IMessage extends Document {
   };
   readed: {
     type: boolean;
-    defaul: boolean;
+    default: boolean;
   };
 }
 

@@ -12,7 +12,6 @@ export interface IUser extends Document {
   confirmed: boolean;
   confirm_hash?: string;
   hierarchy: number;
-
 }
 
 const UserSchema = new Schema (
@@ -25,7 +24,7 @@ const UserSchema = new Schema (
       type: String,
       required: 'Обязателен для ввода',
       validate: [isEmail, 'Формат почты указан не верно'],
-      unique: true
+      unique: true,
     },
     avatar: String,
     password: {
@@ -47,25 +46,24 @@ const UserSchema = new Schema (
     },
   },
   {
-    timestamps: true
+    timestamps: true,
   },
-)
+);
 
 UserSchema.virtual('isOnline').get(function(this: any) {
-  const now = new Date()
-  return differenceInMinutes(now, this.last_seen) < 5;
+  return differenceInMinutes(new Date(), this.lastSeen) < 5;
 });
 
 UserSchema.set("toJSON", {
   virtuals: true
 });
 
-  UserSchema.pre('save', async function(next) {
-    const user: any = this;
+UserSchema.pre('save', async function(this: IUser, next: () => void) {
+  const user: any = this
 
-    if (!user.isModified('password')) {
-      return next();
-    }
+  if (!user.isModified('password')) {
+    return next();
+  }
 
     user.password = await generatePasswordHash(user.password);
     user.confirm_hash = await generatePasswordHash(new Date().toString());

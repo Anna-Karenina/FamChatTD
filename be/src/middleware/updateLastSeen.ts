@@ -1,15 +1,21 @@
-import express from "express";
-import { UserModel } from "../models";
+import express from 'express';
+import { UserModel } from '../models';
+
+declare module 'express' {
+  export interface Request {
+    user?: any;
+  }
+}
 
 export default (
-  req: any,
+  req: express.Request,
   __: express.Response,
   next: express.NextFunction
 ) => {
   if (req.user) {
-    UserModel.findOneAndUpdate(
-      { _id: req.user._id},
-      {  last_seen: new Date()  },
+    UserModel.findByIdAndUpdate(
+      { _id: req.user._id },
+      { lastSeen: new Date() },
       { new: true },
       () => {}
     );

@@ -10,8 +10,30 @@ class MessageController {
     this.io = io;
   }
 
-  index = (req: express.Request, res: express.Response) => {
+  updateReadedStatus = (res: express.Response, userId: string, dialogId: string) => {
+    MessageModel.updateMany(
+      { dialog: dialogId, user: { $ne: userId } },
+      { $set: { readed: true } },
+      (err: any) => {
+        if (err) {
+          return res.status(500).json({
+            status: 'error',
+            message: err,
+          });
+        }
+        this.io.emit('SERVER:MESSAGES_READED', {
+          userId,
+          dialogId,
+        });
+      },
+    );
+  };
+
+  index = (req: any, res: express.Response) => {
     const dialogId: string = req.query.dialog;
+    const userId: any = req.user._id;
+
+    this.updateReadedStatus(res, userId, dialogId);
 
     MessageModel.find({ dialog: dialogId })
       .populate(["dialog", "user"])
