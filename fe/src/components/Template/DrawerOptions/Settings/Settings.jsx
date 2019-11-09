@@ -52,13 +52,23 @@ const useStyles = makeStyles(theme => ({
     marginLeft: '3%',
     padding: '3%',
     textAlign:'center',
-  }
+  },
+  inputfile:{
+    	width: '0.1px',
+    	height: '0.1px',
+    	opacity: '0',
+    	overflow: 'hidden',
+    	position: 'absolute',
+      zIndex: '-1',
+  },
+  lable:{
+    display:'flex',
+  },
 
 
 }));
 
 const Settings = (props) => {
-  console.log(props)
   const classes = useStyles();
   const{
     email,
@@ -67,25 +77,28 @@ const Settings = (props) => {
     createdAt,
     updatedAt,
     hierarchy,
+    lastSeen,
+    fetchUserLogout,
   } = props.data
 let arr =[' ' , 'уборщик' , 'юнга', 'кэп']
 const newHierarchy = (arr[hierarchy])
 
 const generateNormaldate = isoDate =>{
-let date = parseISO(isoDate)
-return  format(new Date(date), 'dd MMMM yyyy в HH:m',{ locale: ruLocale})
-
+  let date = parseISO(isoDate)
+  return  format(new Date(date), 'dd MMMM yyyy в HH:m',{ locale: ruLocale})
 }
-
 
 
   const handleSubmit = ()=>{
     delete window.localStorage.token
     delete window.localStorage.ulid
-    props.history.push('/')
-
+    fetchUserLogout(false)
+      props.history.push('/')
   }
-
+const handleFiles =() =>{
+  let fileList = this.files
+  console.log(fileList)
+}
   return (
     <Paper className={classes.root}>
       <div className={classes.avatarwrapper}>
@@ -95,7 +108,18 @@ return  format(new Date(date), 'dd MMMM yyyy в HH:m',{ locale: ruLocale})
           gutterBottom variant="h5" component="h2">
           {name}
         </Typography>
-        <span className={classes.changeava}> ищменить аваа</span>
+        <span className={classes.changeava}>
+          <input
+            type="file"
+            name="file"
+            id="file"
+            className={classes.inputfile}
+            
+             />
+          <label htmlFor="file" className={classes.lable}>
+            изменить аваа
+          </label>
+        </span>
        </div>
         <Avatar
           alt={name}
@@ -114,7 +138,7 @@ return  format(new Date(date), 'dd MMMM yyyy в HH:m',{ locale: ruLocale})
         <br />
         Создан :{generateNormaldate(createdAt)}
         <br />
-          Онлайн: {generateNormaldate(updatedAt)}
+          Онлайн: {generateNormaldate(lastSeen)}
         <br />
         <br />
         hierarchy: {newHierarchy}
@@ -131,7 +155,7 @@ return  format(new Date(date), 'dd MMMM yyyy в HH:m',{ locale: ruLocale})
 
 const mapDispachToProps = (dispatch) =>{
   return {
-    fetchUserData: () => dispatch(userActions.fetchUserData(null))
+    fetchUserLogout: (bool) => dispatch(userActions.fetchUserLogout(bool)),
   }
 }
 

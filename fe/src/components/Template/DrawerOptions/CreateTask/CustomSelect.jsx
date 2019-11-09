@@ -4,7 +4,6 @@ import Select from 'react-select';
 
 const CustomSelect = ({users, handleBlur, value,onChange}) => {
   const handleChange = value => {
-    console.log(value)
     onChange('taskAssignee', value);
   };
   return (

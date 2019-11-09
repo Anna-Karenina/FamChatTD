@@ -7,8 +7,8 @@ const useStyles = makeStyles(theme => ({
   root: {
     width: '100px ',
     position: 'absolute',
-    top: '45%',
-    left:' 50%',
+    top: '45vh',
+    left:' 50vw',
   },
   img: {
     width: '100%',

@@ -11,7 +11,6 @@ const OneBubbleChat = (props) =>{
 
  const {text, messageAuthor ,createdAt, readed} = props
  const isMe =  (window.localStorage.ulid === messageAuthor)
-
  const generateNormaldate = isoDate =>{
    let date = parseISO(isoDate)
    return  format(new Date(date), 'в HH:m',{ locale: ruLocale})
@@ -22,7 +21,7 @@ const OneBubbleChat = (props) =>{
          (cl.outcomin + ' ' + cl.message) :
          ( cl.incomin + ' ' + cl.message) }
     >
-      <span>{text}</span>
+      <span style={{ display: 'flex', flexGrow: '1'}}>{text}</span>
       <sub className={cl.metadata}>
         <span className={cl.date}>
           {generateNormaldate(createdAt)}

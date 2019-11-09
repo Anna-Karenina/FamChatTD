@@ -34,20 +34,6 @@
   height: 90%;
   margin: 15% 0% 0 ;
 }
-.listOfDialog ::-webkit-scrollbar {
-  transition: all .5s;
-  width: 5px;
-  height: 1px;
-  z-index: 10;
-}
-
-.listOfDialog ::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.listOfDialog ::-webkit-scrollbar-thumb {
-  background: #b3ada7;
-}
 
 .incomin{
   float: left;
@@ -92,7 +78,14 @@
   margin-left: 3%;
   padding: 0;
 }
-
+.online{
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+.online .phoneOnline{
+height: 2vh;
+}
 .formcontainer{
   position: sticky;
   z-index: 10;

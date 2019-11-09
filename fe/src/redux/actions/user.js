@@ -21,7 +21,6 @@ const Actions = {
           window.localStorage["ulid"] = ulid;
         dispatch(Actions.setUserData(data));
         }
-
     });
   },
   fetchUserLogin: (postData) => dispatch => {
@@ -39,15 +38,24 @@ const Actions = {
         }
       });
     },
+    fetchUserLogout: (bool) => dispatch =>({
+      type: 'USER:SET_IS_AUTH',
+      payload: bool
+    }),
     fetchUserRegister: (postData) => dispatch => {
       return userApi.registration(postData).then(({data}) =>
-      console.log(data))
+    console.log(data)
+      )
       .catch( ({response}) => {
         if(response.status === 500) {
           dispatch(Actions.fetchUserDataRepeat(response.data ))
         }
       })
     },
+    setUsersData: data => ({
+      type: "USER:SET_USERS_DATA",
+      payload: data
+    }),
     fetchAllUsers: () => dispatch => {
       return userApi.getAllUsers().then(({data}) => {
         data.map(i =>  (i.label = i.name,  i.key=i._id, i.value=i.name))

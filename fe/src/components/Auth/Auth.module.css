@@ -1,6 +1,6 @@
 .container{
     width: 100vw;
-    height: 100vh;
+    height: 90vh;
     background: url('./../../assets/loginbgc.jpeg') center no-repeat;
     background-size: cover;
     display: flex;

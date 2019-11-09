@@ -26,6 +26,3 @@ export default (state = initstate, { type , payload }) =>{
       return state
   }
 }
-// svrdetwa@mail.ru
-
-	//		"89516623438s"

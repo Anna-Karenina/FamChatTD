@@ -1,5 +1,7 @@
 import React, {useState} from 'react';
 import  { Route, NavLink as Link , Switch } from "react-router-dom";
+import  { connect } from "react-redux";
+import  { tasksActions } from "./../../redux/actions";
 
 import PropTypes from 'prop-types';
 
@@ -33,8 +35,7 @@ const TabPanel = (props) => {
   return (
     <Typography
       component="div"
-      role="tabpanel"
->
+      role="tabpanel">
       <Box style = {{padding: '0'}} p={2}>{children}</Box>
     </Typography>
   )
@@ -149,10 +150,70 @@ const useStyles = makeStyles(theme => ({
 
 }));
 
-const Template = (props) => {
+const Template = ({ hierarchy, fetchAllTasks }) => {
   const classes = useStyles();
-  const [open, setOpen] = useState(false);
   const theme = useTheme();
+  const [open, setOpen] = useState(false);
+  const [content, setContent] = useState('app');
+  const[DrawerItems] = useState({
+    userOption:[
+      {
+        label: 'Новые задачи',
+        Icon: AssignmentIcon,
+        Action: ()=>alert('Новые задачи')
+      },
+      {
+        label: 'Командные задачи',
+        Icon: GroupIcon,
+        Action: ()=>alert('Командные задачи')
+      },
+      {
+        label: 'Мои задачи',
+        Icon: AssignmentInd, 
+        Action: ()=>alert('Мои задачи')
+      },
+      {
+        label: 'На расмотрении',
+        Icon: AssignmentLateIcon,
+        Action: ()=>alert('На расмотрении')
+      },
+    ],
+    managerOption:[
+      {
+        label: 'Все задачи',
+        Icon: AllInboxIcon,
+        Action: fetchAllTasks
+      },
+      {
+        label: 'Архив',
+        Icon: AssignmentReturnedIcon,
+        Action: ()=>alert('label')
+      }
+    ],
+  })
+  const onClick = content => () => {
+    setOpen(false)
+    setContent(content)
+  }
+
+  const ListItems = ({ DrawerItems, onClick }) =>
+    DrawerItems.filter(({hidden})=> !hidden)
+            .map(({label,Icon, Action}, i )=>(
+              <ListItem
+                button
+                key={i}
+                onClick ={onClick(label), Action}>
+              <ListItemIcon className={classes.customToolbar}>
+                <Icon />
+              </ListItemIcon>
+              <ListItemText
+                className={classes.listItemText}>
+                {label}
+              </ListItemText>
+              </ListItem>
+            ))
+
+
   const handleDrawerOpen =()=> {
     setOpen(true);
   }
@@ -222,44 +283,37 @@ const Template = (props) => {
           <Divider />
 
           <List>
-            {[ 'Новые задачи', 'Командные задачи', 'Мои задачи', 'На расмотрении'].map((text, index) => (
-              <ListItem button key={text}>
-                <ListItemIcon className={classes.customToolbar}>
-                  <span onClick={()=>alert(text)}>
-                    {index  === 0 &&  <AssignmentIcon />}
-                  </span>
-                  <span onClick={()=>alert(text)}>
-                  {index  === 1 &&  <GroupIcon /> }
-                  </span>
-                  <span onClick={()=>alert(text)}>
-                  {index  === 2 &&  <AssignmentInd /> }
-                  </span>
-                  <span onClick={()=>alert(text)}>
-                  {index  === 3 &&  <AssignmentLateIcon /> }
-                  </span>
-                </ListItemIcon>
-                <ListItemText primary={text} className={classes.listItemText} />
-              </ListItem>
-            ))}
+            <List>
+              <ListItems
+                DrawerItems = {DrawerItems.userOption}
+                onClick = {onClick}/>
+            </List>
           </List>
 
           <Divider />
+
           <List>
-
-            {[ 'Создать задачу', 'Все задачи', 'Архив',].map((text, index) => (
-              <ListItem button key={text}>
-                <ListItemIcon className={classes.customToolbar}>
-                  {index === 0 && <CreateTask /> }
-                  {index === 1 && <AllInboxIcon /> }
-                  {index === 2 && <AssignmentReturnedIcon /> }
+           {[ 'Создать задачу'].map((text, index) => (
+            <ListItem button key={text}>
+              <ListItemIcon className={classes.customToolbar}>
+               { index === 0 && <CreateTask />}
                 </ListItemIcon>
                 <ListItemText primary={text} className={classes.listItemText} />
               </ListItem>
             ))}
           </List>
-
           <Divider />
 
+        { hierarchy >1 ?
+          <>
+          <List>
+            <ListItems
+              DrawerItems = {DrawerItems.managerOption}
+              onClick = {onClick}/>
+          </List>
+          <Divider />
+          </>:
+          null}
 
             <List style={{position: 'absolute', width: '100%', bottom:'6%'}} >
               <Divider />
@@ -279,6 +333,7 @@ const Template = (props) => {
 
 
 
+
         </Drawer>
 
         <main className={classes.content}>
@@ -286,6 +341,9 @@ const Template = (props) => {
           <Switch>
             <Route  path= '/tasks' component={Tasks} />
             <Route exact path= '/dialogs' component={DialogList} />
+
+            <Route exact path= '/tasks/getall'/>
+
 
             <Route  path= '/settings' component={Settings} />
           </Switch>
@@ -295,4 +353,6 @@ const Template = (props) => {
       </>
   );
 }
-export default Template
+
+export default connect( ({ user }) => ({ hierarchy: user.data.hierarchy }),
+(tasksActions) )(Template)

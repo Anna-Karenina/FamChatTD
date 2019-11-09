@@ -8,13 +8,14 @@ import Verification from "./verification/Verification.jsx"
 
 
 const Auth = (props) => {
-  return (
-   <div className = {styled.container}>
-      <div className = {styled.loginContainer}>
-       <Route exact path= {['/','/login']} component={LoginContainer} />
-       <Route exact path = '/registration' component={RegistrationContainer} />
-       <Route exact path = '/registration/verification' component={Verification} />
-       <Route exact path = '/forgetpass' component={ForgetContainer} />
+ return (
+  <div className = {styled.container}>
+   <div className = {styled.loginContainer}>
+    <Route exact path= {['/','/login']} component={LoginContainer} />
+    <Route exact path = '/user/registration' component={RegistrationContainer}
+      />
+    <Route exact path = '/user/verify' component={Verification} />
+    <Route exact path = '/user/forgetpass' component={ForgetContainer} />
       </div>
    </div >
   )

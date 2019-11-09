@@ -81,9 +81,6 @@ useEffect(()=>{
       },[choosenPartner])
 
 
- console.log(choosenPartner)
-
-
   return(
     <Paper className={classes.root}
             style={{textDecaration: 'none'}}

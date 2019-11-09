@@ -23,6 +23,7 @@ const Columntodos = (props) => {
                 author={m.author}
                 priority={m.priority}
                 key = {m.id}
+                createdAt = {m.createdAt}
                 access = {props.access}
                 discription={m.discription} />)}
                 {provided.placeholder}
@@ -66,13 +67,12 @@ class Tasks extends React.Component {
       this.setState(newState)
     }
     render () {
-
-        console.log(this.props)
       return (
         <DragDropContext onDragEnd={this.onDragEnd}>
           {this.props.tasks===undefined ?
-            <div>1</div>
-            :this.state.columnOrder.map(columnId => {
+            <div>Активных задач нет</div>
+            :
+          this.state.columnOrder.map(columnId => {
           const column = this.state.columns[columnId];
           const tasks = column.taskIds.map(taskId => this.state.tasks[taskId])
 
@@ -85,7 +85,6 @@ class Tasks extends React.Component {
     return{
       ...state.tasks,
       access: state.user.data.hierarchy
-
       }
     }
 

@@ -47,10 +47,13 @@ const RegistrationForm = withFormik({
   handleSubmit: (values,  { setSubmitting, setStatus, props }) => {
     values.email.toLowerCase()
     props.fetchUserRegister(values)
-      .then((fake)=>{
-        setSubmitting(false)
-        props.history.push('/registration/verification')
-        
+      .then(()=>{
+        setTimeout(() => {
+          props.history.push('/user/verify')
+          setSubmitting(false)
+        }, 1000);
+
+
       }).catch(err=>{
          if(err.status === 'error'){
            setStatus(err.status)

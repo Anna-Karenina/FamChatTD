@@ -69,13 +69,12 @@ import {
   }));
 
   const CreateTask = (props) => {
-    const {handleSubmit, handleChange, values, setFieldValue} = props
     const classes = useStyles();
+    console.log(props)
+    const {handleSubmit, handleChange, values, setFieldValue} = props
     const [selectedValue, setSelectedValue] = useState('a');
     const [state, setState] = useState({ open: false });
-    const [users, setUsers] = useState();
-
-
+    const [users, setUsers] = useState(props.users);
 
     const handleClickOpen = () => {
       setState({ ...state, open: true });
@@ -134,6 +133,8 @@ import {
               variant="outlined"
               value={values.taskName}
               />
+
+            <div className={classes.taskName+' '+classes.formControlSelect}>
             <CustomSelect
               className = {classes.formControlSelect}
               onChange={setFieldValue}
@@ -141,7 +142,9 @@ import {
               users={users}
               />
 
-            <div>
+          </div>
+            <div
+            className={classes.taskName}>
               <MuiPickersUtilsProvider utils={DateFnsUtils}>
                 <Field
                   component={CustomDatePicker}

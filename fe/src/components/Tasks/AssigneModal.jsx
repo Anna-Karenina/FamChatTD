@@ -9,7 +9,9 @@ import { makeStyles,
  ListItemAvatar,
  ListItemText,
  DialogTitle,
- Dialog, } from '@material-ui/core';
+ Dialog,
+} from '@material-ui/core';
+
 import { blue } from '@material-ui/core/colors';
 import PersonIcon from '@material-ui/icons/Person';
 
@@ -77,7 +79,7 @@ const AssigneModal = (props) => {
   return (
     <>
       <Button color="primary" className={classes.button}  onClick={handleClickOpen}>
-         всех
+         все учасники 
       </Button>
       <SimpleDialog
         selectedValue={selectedValue}

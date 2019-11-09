@@ -1,3 +1,5 @@
+import { helper } from './../../core/index'
+
 const initstate = {
   tasks: {
     'task-1': {
@@ -7,7 +9,8 @@ const initstate = {
                 interval : '2019-10-31T11:45:00.000Z',
                 taskAssignee : ["private"],
                 author:'Виктория Соколова',
-                priority: 'priority1'
+                priority: 'priority1',
+                createdAt: '2019-10-09T06:19:02.680+00:00'
                 },
     'task-2': {
                 id : 'task-2',
@@ -16,7 +19,8 @@ const initstate = {
                 interval: '2019-10-29T11:45:00.000Z',
                 taskAssignee : ["toall"],
                 author:'Человек паук',
-                priority: 'priority2'
+                priority: 'priority2',
+                createdAt: '2019-10-09T06:19:02.680+00:00'
                 },
     'task-3': {
                 id : 'task-3',
@@ -25,7 +29,8 @@ const initstate = {
                 interval: '2019-10-29T11:45:00.000Z',
                 taskAssignee : ["Виктория С"],
                 author:'Человек тапочек',
-                priority: 'priority3'
+                priority: 'priority3',
+                createdAt: '2019-10-09T06:19:02.680+00:00'
               },
     'task-4': {
                 id : 'task-4',
@@ -34,7 +39,8 @@ const initstate = {
                 interval: '2019-10-29T11:45:00.000Z',
                 taskAssignee : ["private" ,'сука'],
                 author:'Человек паук',
-                priority: 'priority4'
+                priority: 'priority4',
+                createdAt: '2019-10-09T06:19:02.680+00:00'
                 },
     'task-5': {
                 id : 'task-5',
@@ -43,7 +49,8 @@ const initstate = {
                 interval: '2019-10-29T11:45:00.000Z',
                 taskAssignee : ["private" ,'сука'],
                 author:'Человек паук',
-                priority: 'priority1'
+                priority: 'priority1',
+                createdAt: '2019-10-09T06:19:02.680+00:00'
                 },
   },
     columns:{
@@ -59,25 +66,17 @@ const initstate = {
 export default (state = initstate, { type , payload }) =>{
   switch (type) {
     case 'TASKS:SET_ITEMS':
-console.log(payload)
+      let newpayload = helper(payload)
       return {
           ...state,
             tasks:  {
             ...state.tasks,
-          [payload._id]: {
-                    id : payload._id ,
-                    title: payload.taskName,
-                    discription: payload.taskDiscription,
-                    interval : payload.datepickerinline,
-                    taskAssignee : payload.taskAssignee,
-                    author: payload.taskCreator.name,
-                    priority: payload.taskPriority
-
-          },
+             ...newpayload
         },
           columns: {
             ...state.columns,
-            taskIds :state.columns['column-1'].taskIds.push(payload._id)
+            ...state.columns['column-1']
+              .taskIds.push(...Object.keys(newpayload))
           },
       }
 

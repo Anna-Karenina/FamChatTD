@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from 'react'
 import { connect } from 'react-redux'
-import  socket  from './../../../core/socket'
 import { Link } from 'react-router-dom'
 import { makeStyles,Card,
  CardActionArea, CardActions,
@@ -41,15 +40,26 @@ const useStyles = makeStyles({
 
 const  Verification = ({location, confirmed }) => {
  const classes = useStyles();
- const [ verified, setVerified] = useState(false)
-  console.log(location)
+ const hash = location.search.split('hash=')[1];
+ const [verified, setVerified] = useState(false);
+ const [checking, setChecking] = useState(!!hash);
 
-  useEffect(()=>{
-  const hash = location.search.split('hash=')[1]
-    if(hash ||  "" || " "){
-      userApi.verifyHash(hash)
-    }
+ const setStatus = ({ checking, verified }) => {
+  setVerified(verified)
+  setChecking(checking)
+};
+useEffect(() => {
+  if (hash) {
+    userApi.verifyHash(hash)
+      .then(() => {
+        setStatus({ verified: true, checking: false });
       })
+      .catch(() => {
+        setStatus({ verified: false, checking: false });
+      });
+  }
+}, []);
+
 
   return (
     <Card className={classes.card}>
@@ -60,13 +70,13 @@ const  Verification = ({location, confirmed }) => {
           </Typography>
         </div>
         <CardContent className={classes.card} >
-          {!verified ?
+          {!checking ?
             <img src={Mail} alt='mail' className={classes.img}></img>
           :
             <img src={ok} alt='ok' className={classes.img2}></img>
           }
           <Typography variant="body2" color="textSecondary" component="p">
-            { !verified ?
+            { !checking ?
               <span>
                 Благодарим за регистрацию!<br /> последний шаг: вам необходимо подтвердить почту и перейти по ссылке в письме
               </span>
@@ -82,14 +92,11 @@ const  Verification = ({location, confirmed }) => {
       </CardActionArea>
       <CardActions>
         { !verified ?
-          <>
-          <Button size="small" color="primary">
-            Отправить письмо еще раз
+
+          <Button size="small" color="primary" onClick={()=>window.close()}>
+            Хорошо, открою почту и подтвержу
           </Button>
-          <Button size="small" color="primary">
-            кнопка
-          </Button>
-          </>
+
         :null}
       </CardActions>
     </Card>

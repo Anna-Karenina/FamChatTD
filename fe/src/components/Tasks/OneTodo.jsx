@@ -1,8 +1,11 @@
 import React from 'react';
 import AssigneModal from './AssigneModal'
+import parseISO from 'date-fns/parseISO'
+import format from 'date-fns/format'
 
 import clsx from 'clsx';
-import {ExpansionPanel,
+import {
+   ExpansionPanel,
    ExpansionPanelDetails,
    makeStyles,
    Divider,
@@ -11,6 +14,7 @@ import {ExpansionPanel,
    ExpansionPanelSummary,
    ExpansionPanelActions
  } from '@material-ui/core';
+import AssignmentReturnedIcon from '@material-ui/icons/AssignmentReturned';
 import AlertDialog from './alert';
 import {Draggable} from 'react-beautiful-dnd';
 
@@ -101,15 +105,36 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const OneTodo = (props) => {
+  const classes = useStyles();
+  console.log(props)
+  const {
+    title,
+    discription,
+    interval,
+    taskAssignee,
+    author,
+    priority,
+    id,
+    index,
+    access,
+    createdAt
+  } =props
+
+  const generateDeadLineDate = isoDate =>{
+    return  formatDistanceStrict(new Date(isoDate), new Date(),
+    { locale: ruLocale} )
+
+  }
 
   const generateNormaldate = isoDate =>{
-    const date = formatDistanceStrict(new Date(isoDate), new Date(),
-    { locale: ruLocale} )
-    return date
+    return(
+      format(new Date(parseISO(isoDate)),
+      'dd MMMM  в HH:m',
+      { locale: ruLocale})
+    )
   }
-  console.log(props)
-  const {title, discription, interval, taskAssignee, author, priority, id , index, access} = props
-  const classes = useStyles();
+
+
 
 return (
     <Draggable draggableId = {id} index={index}>
@@ -144,17 +169,18 @@ return (
               <Typography
                 className={classes.heading}>
                   dead-line <br/>
+                осталось: <br/>
               </Typography>
               <Typography
                 className={classes.heading+ ' ' +classes.boxSettime}>
-                  {generateNormaldate(interval)}
+                  {generateDeadLineDate(interval)}
               </Typography>
               </div>
             </ExpansionPanelSummary>
             <ExpansionPanelDetails className={classes.details}>
 
               <div className={classes.author}>
-                <p>Созданно: 11.09</p>
+                <p>Созданно: {generateNormaldate(createdAt)}</p>
                 <p >Автор : {author}</p>
               </div>
               <div className={classes.column}>
@@ -173,6 +199,12 @@ return (
             </ExpansionPanelDetails>
             <Divider />
             <ExpansionPanelActions>
+              {  access > 1  ?
+              <Button size="small" >
+              <AssignmentReturnedIcon style={{color : '#fff'}} />
+              </Button>
+              : null
+            }
               <div className={classes.column}>
                 <AlertDialog label="Выполненно"/>
               </div>

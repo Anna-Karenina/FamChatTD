@@ -96,7 +96,11 @@ const handleSendMessage = e => {
         value={value}
       />
     <span
-      className={classes.circle}   onClick={()=>fetchSendMessage(value, currentDialogId)}>
+      className={classes.circle} onClick={()=>{
+        fetchSendMessage(value, currentDialogId )
+        setValue("");
+      }
+        }>
       <SendIcon className={classes.ico} />
     </span>
 

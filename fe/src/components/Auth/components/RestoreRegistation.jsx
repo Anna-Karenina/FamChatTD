@@ -6,8 +6,8 @@ import styled from './../Auth.module.css'
 const RestoreRegistation = (props) => {
   return(
   <div className={styled.registration}>
-    <Link to="/registration">Регистрация</Link>
-    <Link to ="/forgetpass">Напомнить</Link>
+    <Link to="/user/registration">Регистрация</Link>
+    <Link to ="/user/forgetpass">Напомнить</Link>
   </div>
  )
 }

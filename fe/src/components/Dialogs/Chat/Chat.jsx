@@ -16,6 +16,7 @@ import Avatar from '@material-ui/core/Avatar';
 import { makeStyles } from '@material-ui/core/styles';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
+import PhoneIphoneIcon from '@material-ui/icons/PhoneIphone';
 
 const useStyles = makeStyles(theme => ({
   bigAvatar: {
@@ -48,25 +49,16 @@ const ChatContainer  = (props) => {
     if (currentDialogId) {
       fetchMessages(currentDialogId);
     }
-    socket.on("SERVER:NEW_MESSAGE", onNewMessage, console.log('пришшло сообщение'));
+    socket.on("SERVER:NEW_MESSAGE", onNewMessage);
 
-    return () =>{ socket.removeListener("SERVER:NEW_MESSAGE", onNewMessage)};
+    return () =>{
+      socket.removeListener("SERVER:NEW_MESSAGE", onNewMessage)};
   }, [currentDialogId]);
 
-  // useEffect(() => {
-  //   messagesRef.current.scrollTo(0, 999999);
-  // }, [items]);
+  useEffect(() => {
+    messagesRef.current.scrollTo(0, 999999);
+  }, [items.length > 1]);
 
-  let list = items.map(i =>
-    <OneBubbleChat
-      key = {i._id}
-      text={i.text}
-      dialogAuthor = {i.dialog.author}
-      messageAuthor = {i.user._id}
-      createdAt ={i.createdAt}
-      readed={i.readed}
-      />
-  )
   return (
     <div className = {cl.maincontainer}>
       <div className= {cl.dialogHeader}>
@@ -77,7 +69,8 @@ const ChatContainer  = (props) => {
           <span className={cl.backbutton}>назад</span>
         </Link>
         <span className={cl.date}>
-        {currentPartner.isOnline? 'online' : 'offline'}
+        {currentPartner.isOnline ?
+          <span className={cl.online}> <PhoneIphoneIcon className={cl.phoneOnline} /> online </span> : 'offline'}
         </span>
           <Avatar
             alt={currentPartner.name}
@@ -94,7 +87,15 @@ const ChatContainer  = (props) => {
             <Loading />
           </div> :
           <div className = {cl.listOfDialog} ref={messagesRef}>
-            {list}
+            {items.map(i =>
+              <OneBubbleChat
+                key = {i._id}
+                text={i.text}
+                dialogAuthor = {i.dialog.author}
+                messageAuthor = {i.user._id}
+                createdAt ={i.createdAt}
+                readed={i.readed}
+                />)}
           </div>
         }
         <div className = {cl.formcontainer}>

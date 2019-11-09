@@ -8,6 +8,19 @@ const Actions = {
   createTask: (postData) => dispatch => {
        tasksApi.newTask(postData)
         .then(({data}) =>{
+          console.log(data);
+        })
+ },
+  fetchAllTasks: (postData) => dispatch => {
+       tasksApi.getAll()
+        .then(({data}) =>{
+          let items = data
+        dispatch(Actions.setTasks(items));
+        })
+ },
+  fetchTeamTasks: (postData) => dispatch => {
+       tasksApi.getTeamTasks()
+        .then(({data}) =>{
           let items = data
         dispatch(Actions.setTasks(items));
         })
