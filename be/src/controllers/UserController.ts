@@ -152,6 +152,9 @@ class UserController{
     const postData = {
       email: req.body.email,
       password: req.body.password,
+      status: 'sucess',
+      message: 'Вход выполнен',
+      variants: 'sucess',
     }
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -160,9 +163,9 @@ class UserController{
     UserModel.findOne({ email: postData.email }, (err, user: any) => {
      if (err || !user) {
        return res.json({
-         status: 'usererror',
+         status: 'error',
          message: 'Пользователь c таким логином не найден  ',
-         variants: 'error',
+         variants: 'error'
        })
      }
       if (bcrypt.compareSync(postData.password, user.password)) {
@@ -175,7 +178,8 @@ class UserController{
       } else {
         res.json({
           status: 'error',
-          message: 'Не верный наверно пароль...'
+          message: 'Не верный наверно пароль...',
+          variants: 'error',
         });
       }
     });

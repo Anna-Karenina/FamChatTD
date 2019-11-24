@@ -65,6 +65,9 @@ class DialogController {
                 text: req.body.text,
                 user: req.user._id,
                 dialog: dialogObj._id,
+                status: 'success',
+                variants: 'success',
+                message: 'Диалог создан',
               });
 
               message

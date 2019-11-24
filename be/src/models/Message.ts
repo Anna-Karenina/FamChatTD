@@ -1,6 +1,10 @@
 import mongoose, { Schema, Document } from 'mongoose';
 
+
 export interface IMessage extends Document {
+  updatedAt: any;
+  createdAt: any;
+  user: any;
   text: {
     type: string;
     require: boolean;
@@ -14,7 +18,17 @@ export interface IMessage extends Document {
     type: boolean;
     default: boolean;
   };
+  files:  {
+    type: Schema.Types.ObjectId,
+    ref: string;
+    default: null;
+    base64: {type:Buffer};
+    map:any;
+    length:any;
+  };
 }
+
+
 
 const MessageSchema = new Schema(
   {
@@ -25,7 +39,13 @@ const MessageSchema = new Schema(
       type: Boolean,
       default: false,
     },
-    attachments: [{ type: Schema.Types.ObjectId, ref: 'UploadFile' }],
+    files: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'GFS',
+        default: null,
+        base64:{type: Buffer}
+      }] ,
   },
   {
     timestamps: true,

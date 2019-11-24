@@ -1,28 +1,38 @@
-import mongoose, { Schema, Document } from "mongoose";
-
-export interface IUploading extends Document {
-  filename: string;
-  ext: string;
-  message: string;
-  user: Schema.Types.ObjectId;
-}
-
-const Uploadingchema = new Schema(
-  {
-    filename: String,
-    size: Number,
-    ext: String,
-    message: { type: Schema.Types.ObjectId, ref: "Message", require: true },
-    user: { type: Schema.Types.ObjectId, ref: "User", require: true }
-  },
-  {
-    timestamps: true
-  }
-);
-
-const UploadingModel = mongoose.model<IUploading>(
-  "UploadFile",
-  Uploadingchema
-);
-
-export default UploadingModel;
+// import mongoose, { Schema, Document } from "mongoose";
+//
+// export interface IUploadings extends Document {
+//   length: number;
+//   chunkSize: number;
+//   uploadDate: Date;
+//   md5: string;
+//   filename: string;
+//   contentType: string;
+//   aliases: string;
+//   metadata: any;
+//   ext: string;
+//   file: BinaryType;
+//   read: String;
+// }
+//
+//  const UploadingsSchema = new Schema(
+//    {
+//       filename: String,
+//       contentType: String,
+//       length: Number,
+//       chunkSize: Number,
+//       uploadDate: Date,
+//       aliases: Object,
+//       metadata: Object,
+//       md5: String,
+//       read: String
+//     //dialog: { type: Schema.Types.ObjectId, ref: "Dialog", require: true },
+//     //user: { type: Schema.Types.ObjectId, ref: "User", require: true }
+//   },
+// );
+// //
+// const UploadingsModel = mongoose.model<IUploadings>(
+//   "uploads",
+//   UploadingsSchema
+// );
+//
+// export default UploadingsModel;

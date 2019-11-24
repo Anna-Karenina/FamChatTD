@@ -31,13 +31,12 @@ class TaskController {
         return res.json(messages);
       });
   };
-getteamtasks = (req: express.Request, res: express.Response) => {}
 
   create = (req: any, res: express.Response)=>{
       const userId = req.user._id;
       const postData = {
         taskName: req.body.payload.taskName,
-        taskAssignee: req.body.payload.taskAssignee,
+        taskAssignee: req.body.payload.toAll ?  null :      req.body.payload.taskAssignee,
         datepickerinline: req.body.payload.datepickerinline,
         taskDiscription: req.body.payload.taskDiscription,
         taskPriority: req.body.payload.priority,
@@ -53,6 +52,7 @@ getteamtasks = (req: express.Request, res: express.Response) => {}
       .then((obj: any) => {
         res.json({
           status: 'success',
+          variants: 'success',
           message: 'Таска создана'
         });
       }).catch(reason => {
