@@ -2,6 +2,7 @@ import mongoose, { Schema, Document } from 'mongoose';
 
 
 export interface IMessage extends Document {
+  _id:any;
   updatedAt: any;
   createdAt: any;
   user: any;
@@ -42,9 +43,7 @@ const MessageSchema = new Schema(
     files: [
       {
         type: Schema.Types.ObjectId,
-        ref: 'GFS',
-        default: null,
-        base64:{type: Buffer}
+        ref: 'AttachmentModel',
       }] ,
   },
   {

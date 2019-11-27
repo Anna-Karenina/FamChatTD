@@ -7,6 +7,7 @@ mongoose.Promise = global.Promise
 
 import createRoutes from './core/routes'
 import createSockets from './core/socket'
+import createStorage from './core/storage';
 
 const app = express()
 const http = createServer(app)
@@ -17,6 +18,7 @@ http.listen(process.env.PORT,  () => {
 });
 
 mongoose.connection.on('open', () => {
+  createStorage()
   const io = createSockets(http)
   createRoutes(app, io)
 })

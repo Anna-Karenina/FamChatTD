@@ -1,24 +1,8 @@
 import express from "express";
 import socket from "socket.io";
+import fileStream from "../libz/generateBase64";
 import { MessageModel, DialogModel } from "../models";
-const misc = require('./../core/connectdb')
 
-
-const fileStream:any =  async (fileidarr: any) =>{
-console.log(fileidarr)
-  return new Promise((resolve, reject) => {
-    const readstream = misc.gfs.createReadStream({
-      _id: fileidarr.toString,
-    })
-    const bufs:any  = [];
-    readstream.on('data',  (chunk: any) => {
-      bufs.push(chunk);
-    });
-    readstream.on('error', reject)
-    readstream.on('end', () => resolve(
-      Buffer.concat(bufs).toString('base64')))
-  })
-}
 
 class MessageController {
   io: socket.Server;
@@ -26,8 +10,6 @@ class MessageController {
   constructor(io: socket.Server) {
     this.io = io;
   }
-
-
 
   updateReadedStatus = (res: express.Response, userId: string, dialogId: string) => {
     MessageModel.updateMany(
@@ -48,36 +30,36 @@ class MessageController {
     );
   };
 
-   index =  (req: any, res: express.Response) => {
+   index =  (req: express.Request, res: express.Response) => {
 
     const dialogId: string = req.query.dialog;
     const userId: any = req.user._id;
     this.updateReadedStatus(res, userId, dialogId);
-//let  messages:any
-//console.log(mongoose.connection)
+
      MessageModel.find({ dialog: dialogId })
       .populate(["dialog", "user" ,'files'])
       .exec()
-      .then(  async docs => {
-      //res.status(200).json({
-     const messages = docs.map( async (doc) => {
-if(doc.files.length !==0 ){
-  await fileStream(doc.files.map((i: { _id: any; })=>i._id))
-    .then((result: any) => {return doc.files.base64 = result})
-}
-            return {
-              readed: doc.readed,
-              files:doc.files.base64,
-              _id: doc._id,
-              text: doc.text,
-              dialog: doc.dialog,
-              user: doc.user,
-              createdAt: doc.createdAt,
-              updatedAt: doc.updatedAt,
+      .then( async  docs => {
+     const messages = docs.map( async doc => {
+      return {
+        readed: doc.readed,
+        files:  doc.files.length !== 0 ?
+
+        await (fileStream(doc.files.map((i: any)=> i._id)))
+                   .then((result: any)  =>{ return result } )
+        
+        : {},
+        _id: doc._id,
+        text: doc.text,
+        dialog: doc.dialog,
+        user: doc.user,
+        createdAt: doc.createdAt,
+          updatedAt: doc.updatedAt,
             };
-          //})
       })
-  await  Promise.all(messages).then(messages=>res.status(200).json({messages}))
+    Promise.all(messages)
+    .then( messages =>res.status(200).json({messages}) )
+      .catch(console.log.bind(console))
     })
   };
 

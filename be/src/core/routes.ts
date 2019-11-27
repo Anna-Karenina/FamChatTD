@@ -4,12 +4,13 @@ import socket from 'socket.io'
 import { updateLastSeen, checkAuth } from "../middleware";
 import { loginValidation } from "../libz/validations";
 import methodOverride from 'method-override';
-let upload = require('./connectdb')
+const misc = require ('./storage')
+
 import { UserCtr,
  DialogCtr,
  MessageCtr,
  TaskCtr,
- //UploadingCtr
+ UploadingCtr
  } from "../controllers";
 
 const createRoutes = (
@@ -19,7 +20,7 @@ const createRoutes = (
     const UserController = new UserCtr(io);
     const MessageController = new MessageCtr(io);
     const TaskController = new TaskCtr(io);
-  //  const UploadingController = new UploadingCtr();
+    const UploadingController = new UploadingCtr();
 
     app.use(bodyParser.json())
     app.use(checkAuth)
@@ -46,22 +47,10 @@ const createRoutes = (
     app.get('/tasks/getall', TaskController.index )
     app.post('/tasks', TaskController.create )
 
-    //app.post('/upload', UploadingController.upload)
-     app.post('/upload', upload.upload.single('file'), (req, res) => {
+    //app.post('/upload',  UploadingController.upload)
+     app.post('/upload', misc.upload.single('file'), (req, res) => {
         res.json({ file: req.file });
      });
  }
 
 export default createRoutes
-// const readstream = misc.gfs.createReadStream({
-//   _id: '5dd9b0e9d323b725dab088c4',
-// })
-// const bufs: any[]  = [];
-// readstream.on('data', function (chunk: any) {
-//   bufs.push(chunk);
-// });
-// readstream.on('end', function () {
-//   const fbuf = Buffer.concat(bufs);
-//   const base64 = fbuf.toString('base64');
-//   console.log(base64);
-// });
