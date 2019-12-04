@@ -1,6 +1,6 @@
 import nodemailer from 'nodemailer';
 
-let transport = nodemailer.createTransport({
+const transport = nodemailer.createTransport({
   host: "smtp.mailtrap.io",
   port: 2525,
   auth: {

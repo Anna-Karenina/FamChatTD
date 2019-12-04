@@ -1,52 +1,52 @@
 import mongoose , {Schema, Document} from 'mongoose'
 
 export interface ITask extends Document {
-    taskName:{
-      type: string;
-      require: true;
-    },
-    taskDiscription: {
-      type: string;
+  taskName:{
+    type: string;
+    require: true;
+  },
+  taskDiscription: {
+    type: string;
+    require: boolean;
+  },
+  taskCreator:{
+    type: Schema.Types.ObjectId;
+    ref: string;
+    require: true;
+  },
+  taskPriority:{
+    type: string;
+    require: true;
+  },
+  taskStatus:{
+    team:{
+      type: boolean;
       require: boolean;
+      default: false;
     },
-    taskCreator:{
-      type: Schema.Types.ObjectId;
-      ref: string;
-      require: true;
+    opennew:{
+      type: boolean;
+      require: boolean;
+      default: true;
     },
-    taskPriority:{
+    complete:{
+      type: boolean;
+      require: boolean;
+      default: false;
+    },
+    status:{
       type: string;
       require: true;
-    },
-    taskStatus:{
-      team:{
-        type: boolean;
-        require: boolean;
-        default: false;
-      },
-      opennew:{
-        type: boolean;
-        require: boolean;
-        default: true;
-      },
-      complete:{
-        type: boolean;
-        require: boolean;
-        default: false;
-      },
-      status:{
-        type: string;
-        require: true;
-        default: string;
-      }
-    },
-    taskAssignee:{
-      type: Schema.Types.ObjectId;
-      ref: string;
-    },
-    datepickerinline:{
+      default: string;
+    }
+  },
+  taskAssignee:{
+    type: Schema.Types.ObjectId;
+    ref: string;
+  },
+  datepickerinline:{
     type: Date,
-    },
+  },
  }
 
 

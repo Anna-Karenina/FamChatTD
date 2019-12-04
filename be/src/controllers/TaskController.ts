@@ -1,7 +1,7 @@
 import express from 'express'
 import socket from "socket.io";
 
-import {  TaskModel } from '../models'
+import { TaskModel } from '../models'
 
 class TaskController {
   io: socket.Server;
@@ -29,6 +29,19 @@ class TaskController {
           });
         }
         return res.json(messages);
+      });
+  };
+  indexmytasks = (req: express.Request, res: express.Response) => {
+    const userId:string | number = req.user._id;
+    const taksId: string = req.query.tasks;
+      TaskModel.find({taskAssignee: userId})
+      .exec(function(err, dialogs) {
+        if (err) {
+          return res.status(404).json({
+            message: 'Dialogs not found',
+          });
+        }
+        return res.json(dialogs);
       });
   };
 

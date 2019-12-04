@@ -1,9 +1,12 @@
+import  express from 'express'
 import { verifyJWTToken } from "../libz";
 
-export default (req: any, res: any, next: any) => {
+
+
+export default (req: any, res: express.Response, next: express.NextFunction) => {
   if (req.path === "/user/login" ||
       req.path === "/user/registration"  ||
-        req.path === "/user/verify" ) {
+      req.path === "/user/verify" ) {
     return next();
   }
 
@@ -15,6 +18,6 @@ export default (req: any, res: any, next: any) => {
       next();
     })
     .catch(_err => {
-      res.status(403).json({ message: "Invalid auth token provided." });
+      res.status(403).json({ message: "token problem." });
     });
 };

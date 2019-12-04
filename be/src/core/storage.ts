@@ -1,20 +1,10 @@
-// import mongoose from 'mongoose';
-// const { createModel } = require('mongoose-gridfs');
-//
-// const Attachment = createModel({
-//     modelName: 'AttachmentModel',
-//     connection: mongoose.connection,
-//     bucketName: 'Attachment'
-// });
-// console.log(mongoose.connection)
-
-const { createModel , createBucket } = require('mongoose-gridfs');
-const multer  = require('multer');
+import multer,{StorageEngine} from 'multer';
 import mongoose from 'mongoose'
+const { createModel , createBucket } = require('mongoose-gridfs');
 
 const createStorage = () => {
 
-  const storage = createBucket({
+  const storage: StorageEngine = createBucket({
       connection: mongoose.connection,
       bucketName: 'messages/Attachment'
   });

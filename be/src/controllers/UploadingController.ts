@@ -1,13 +1,19 @@
 import express from "express";
-import mongoose from 'mongoose';
-const misc = require ('./../core/storage')
+import socket from "socket.io";
+
 
 class UploadingController {
+    io: socket.Server;
 
-  upload = (misc.upload.single('file') ,
-    (req: express.Request, res: express.Response) => {
-        console.log(req.file)
-       res.json({ file: req.file })
-  });
+  constructor(io: socket.Server) {
+    this.io = io;
+  }
+
+  upload = async (req:express.Request, res:express.Response) => {
+     res.json({ file: req.file });
+     this.io.emit('SERVER:FILE_UPLOADED', console.log('пришла картинка'));
+  }
+
+
 }
 export default UploadingController;

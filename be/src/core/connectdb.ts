@@ -1,11 +1,9 @@
+import mongoose, { ConnectionOptions } from 'mongoose';
 
-import mongoose from 'mongoose';
+const URL:string ='mongodb+srv://annakarenina:9516623438svr@cluster0-8qzna.azure.mongodb.net/'
 
-const URL ='mongodb+srv://annakarenina:9516623438svr@cluster0-8qzna.azure.mongodb.net/'
-
-const options = {
+const options:ConnectionOptions = {
   dbName: 'tasker',
-  retryWrites: true,
   useNewUrlParser: true,
   useCreateIndex: true,
   useFindAndModify: false,

@@ -3,6 +3,7 @@ import bcrypt from "bcrypt";
 import socket from "socket.io";
 import { validationResult } from "express-validator";
 import nodemailer from '../core/nodemailer';
+import {generateBase64} from './../libz'
 
 import { UserModel } from "../models";
 import { createJWTToken } from '../libz/'
@@ -25,7 +26,7 @@ class UserController{
     })
   }
 
-  getMe = (req: any, res: express.Response) => {
+  getMe = (req: express.Request, res: express.Response) => {
     const id: string = req.user._id;
     UserModel.findById(id, (err, user)=>{
       if(err){
@@ -143,18 +144,32 @@ class UserController{
    };
 
 
-   update = (req: express.Request, res: express.Response) => {
-
+   update = (_req: express.Request, _res: express.Response) => {
+     // const id: string = req.user._id;
+     // UserModel.findById(id, (err, user)=>{
+     //   if(err){
+     //     return res.status(404).json({
+     //       message: 'Вход не выполнен'
+     //     })
+     //   }
+     //   res.json(user)
+     // })
    };
 
 
+   updateava = async  (req: any, res: express.Response) => {
+     const userId: string = req.user._id;
+     const avatarId: any = req.file._id;
+      const avabinnary = await generateBase64(avatarId)
+      UserModel.findByIdAndUpdate(userId,  {avatar : avabinnary } )
+        .then(()=>res.status(200).json(avabinnary))
+   }
+//// TODO: jwt создает токен на модели пользователя изза большего обьема содержания аватара токен получается слижком большой
   login = (req: express.Request, res: express.Response) => {
     const postData = {
       email: req.body.email,
       password: req.body.password,
-      status: 'sucess',
-      message: 'Вход выполнен',
-      variants: 'sucess',
+
     }
     const errors = validationResult(req);
     if (!errors.isEmpty()) {

@@ -1,7 +1,7 @@
 import mongoose , {Schema, Document} from 'mongoose'
 import { isEmail } from 'validator'
 import differenceInMinutes from "date-fns/differenceInMinutes"
-import { generatePasswordHash } from "../libz";
+import { generatePasswordHash } from "../libz/";
 
 export interface IUser extends Document {
   name: string;
@@ -18,15 +18,19 @@ const UserSchema = new Schema (
   {
     name: {
       type: String,
+      require: true,
       required: 'Обязателен для ввода',
     },
     email: {
       type: String,
+      require: true,
       required: 'Обязателен для ввода',
       validate: [isEmail, 'Формат почты указан не верно'],
       unique: true,
     },
-    avatar: String,
+    avatar: {
+      type:String ,
+    },
     password: {
       type:String,
       required: 'Обязателен для ввода',
@@ -54,7 +58,7 @@ UserSchema.virtual('isOnline').get(function(this: any) {
   return differenceInMinutes(new Date(), this.lastSeen) < 5;
 });
 
-UserSchema.set("toJSON", {
+UserSchema.set('toJSON', {
   virtuals: true
 });
 
@@ -69,6 +73,6 @@ UserSchema.pre('save', async function(this: IUser, next: () => void) {
     user.confirm_hash = await generatePasswordHash(new Date().toString());
   });
 
-const UserModel = mongoose.model<IUser>("User" , UserSchema )
+const UserModel = mongoose.model<IUser>('User' , UserSchema )
 
 export default  UserModel

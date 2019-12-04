@@ -7,9 +7,11 @@ interface ILoginData{
 }
 
 export default (user: ILoginData) => {
-let token = jwt.sign(
+let token:string = jwt.sign(
     {
-      data: reduce(user, (result : any, value, key) => {
+      data: reduce(
+        user, (
+          result : any, value: string, key: string) => {
         if (key !== 'password'){
           result[key] = value
         }

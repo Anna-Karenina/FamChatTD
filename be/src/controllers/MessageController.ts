@@ -1,8 +1,7 @@
 import express from "express";
 import socket from "socket.io";
-import fileStream from "../libz/generateBase64";
+import {generateBase64} from "../libz";
 import { MessageModel, DialogModel } from "../models";
-
 
 class MessageController {
   io: socket.Server;
@@ -30,49 +29,57 @@ class MessageController {
     );
   };
 
-   index =  (req: express.Request, res: express.Response) => {
+  index =  (req: express.Request, res: express.Response) => {
 
-    const dialogId: string = req.query.dialog;
-    const userId: any = req.user._id;
+   const dialogId: string = req.query.dialog;
+   const userId: any = req.user._id;
     this.updateReadedStatus(res, userId, dialogId);
 
-     MessageModel.find({ dialog: dialogId })
-      .populate(["dialog", "user" ,'files'])
-      .exec()
-      .then( async  docs => {
-     const messages = docs.map( async doc => {
-      return {
-        readed: doc.readed,
-        files:  doc.files.length !== 0 ?
-
-        await (fileStream(doc.files.map((i: any)=> i._id)))
-                   .then((result: any)  =>{ return result } )
-        
-        : {},
-        _id: doc._id,
-        text: doc.text,
-        dialog: doc.dialog,
-        user: doc.user,
-        createdAt: doc.createdAt,
+    MessageModel.find({ dialog: dialogId })
+     .populate(["dialog", "user" ,'files'])
+     .exec()
+     .then( async  docs => {
+      const messages = docs.map( async doc => {
+        return {
+          readed: doc.readed,
+          files:  doc.files.length !== 0 ?
+            await new Promise((resolve, reject) => {
+              doc.files.map( async (i:any) =>  {
+              resolve ( generateBase64(i._id) )
+                // reject( res.status(204).json({
+                //   status:'error',
+                //   message: 'Что-то пошло не так'
+                // })
+                // )
+//// TODO: мультизагрузку файлов
+          })
+        }).then((result: any)  => { return [result] } )
+          : {},
+          _id: doc._id,
+          text: doc.text,
+          dialog: doc.dialog,
+          user: doc.user,
+          createdAt: doc.createdAt,
           updatedAt: doc.updatedAt,
-            };
+        };
       })
     Promise.all(messages)
-    .then( messages =>res.status(200).json({messages}) )
-      .catch(console.log.bind(console))
+      .finally(() => console.log("Промис завершён"))
+      .then( messages =>res.status(200).json({messages}) )
+        .catch(console.log.bind(console))
     })
   };
-
 
   create = (req: any, res: express.Response) => {
     const userId = req.user._id;
     const postData = {
       text: req.body.text,
       dialog: req.body.dialog_id,
+      user: userId,
       files:
         req.body.files === undefined ? []
-        : req.body.files.map((i: { file: any; })=> i.file) ,
-      user: userId
+        : req.body.files.map((i: { file: any; })=> i.file)
+
     };
 
     const message = new MessageModel(postData);
@@ -118,7 +125,7 @@ class MessageController {
      if (err || !message) {
        return res.status(404).json({
          status: 'error',
-         message: 'Message not found',
+         message: 'Сообщение не найдено',
        });
      }
 
@@ -151,7 +158,7 @@ class MessageController {
        );
        return res.json({
          status: 'success',
-         message: 'Message deleted',
+         message: 'Сообщение удалено',
        });
      } else {
        return res.status(403).json({

@@ -1,11 +1,10 @@
 import mongoose, { Schema, Document } from 'mongoose';
 
-
 export interface IMessage extends Document {
-  _id:any;
-  updatedAt: any;
-  createdAt: any;
-  user: any;
+  _id:Schema.Types.ObjectId;
+  updatedAt: Date;
+  createdAt: Date;
+  user: Schema.Types.ObjectId;
   text: {
     type: string;
     require: boolean;
@@ -23,7 +22,7 @@ export interface IMessage extends Document {
     type: Schema.Types.ObjectId,
     ref: string;
     default: null;
-    base64: {type:Buffer};
+    base64: { type:Buffer };
     map:any;
     length:any;
   };
