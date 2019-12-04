@@ -5,8 +5,6 @@ import { dialogsActions } from "./../../redux/actions/index";
 import socket from "./../../core/socket"
 import OneDialogElement from './OneDialogElement'
 
-
-
 import { makeStyles, Paper } from '@material-ui/core';
 
 import {
@@ -23,7 +21,6 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const DialogList  = (props) => {
-  console.log(props)
   const { fetchDialogs, items, updateReadedStatus } = props
 
   const onNewDialog = () => {
@@ -41,6 +38,7 @@ const DialogList  = (props) => {
       return () => {
         socket.removeListener('SERVER:DIALOG_CREATED', onNewDialog);
         socket.removeListener('SERVER:NEW_MESSAGE', onNewDialog);
+        socket.removeListener('SERVER:MESSAGES_READED', updateReadedStatus);
       }
   },[]);
 
@@ -51,7 +49,7 @@ const DialogList  = (props) => {
       author={i.author}
       partner={i.partner}
       id={i._id}
-      lastsMessage={i.lastMessage.text}
+      lastMessage={i.lastMessage.text }
       readed={i.lastMessage.readed}
       fetchDialogs={i.fetchDialogs}
       currentDialogId ={i.currentDialogId}

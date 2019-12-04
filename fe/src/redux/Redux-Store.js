@@ -4,13 +4,14 @@ import dialogs from './reducers/dialogs'
 import user from './reducers/user'
 import message from './reducers/message'
 import tasks from './reducers/tasks'
+import files from './reducers/files'
 
 let bigfvckingreducer = combineReducers({
   dialogs,
   user,
   tasks,
   message,
-
+  files
 });
 const reduxext = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 

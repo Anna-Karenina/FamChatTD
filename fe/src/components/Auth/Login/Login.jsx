@@ -16,11 +16,33 @@ const Login = (props) => {
   return (
     <Form style={{width:'100%'}} autoComplete="off">
       {props.isSubmitting ? <Loading /> : <span></span>}
-      <EmailInput {...props} id ="email"  placeholder='email'  />
-      <PassInput placeholder="Пароль" id='password' {...props}  />
-      <IButton placeholder="Войти" {...props}  />
+      <EmailInput  
+        id ="email"  
+        placeholder='email'
+        values = {props.values}
+        touched = {props.touched}
+        errors = {props.errors}
+        handleChange = {props.handleChange}
+        handleBlur = {props.handleBlur} />
+      <PassInput
+        placeholder="Пароль"
+        id='password'
+        values = {props.values}
+        touched = {props.touched}
+        errors = {props.errors}
+        handleChange = {props.handleChange}
+        handleBlur = {props.handleBlur}/>
+      <IButton
+        placeholder="Войти"
+        isValid = {props.isValid}
+        handleSubmit = {props.handleSubmit}
+        isSubmitting = {props.isSubmitting}
+          />
       <RestoreRegistation />
-      <Notification {...props} />
+      <Notification
+        status = {props.status}
+        message = { props.message }
+        variants = {props.variants} />
     </Form>
   )
 }

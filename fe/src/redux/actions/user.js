@@ -5,6 +5,18 @@ const Actions = {
     type: "USER:SET_DATA",
     payload: data
   }),
+  fetchUserLogout: (bool) => dispatch =>({
+    type: 'USER:SET_IS_AUTH',
+    payload: bool
+  }),
+  setUsersData: data => ({
+    type: "USER:SET_USERS_DATA",
+    payload: data
+  }),
+  setUsersAvatar: data => ({
+    type: "USER:UPDATE_USER_AVATAR",
+    payload: data
+  }),
   fetchUserDataRepeat: (data) => dispatch => {
     console.log(data)
     dispatch(Actions.setUserData(data))
@@ -25,7 +37,7 @@ const Actions = {
   },
   fetchUserLogin: (postData) => dispatch => {
     return  userApi.login(postData).then(({data})=>{
-      if (data.status === 'usererror' || data.status === "error" ) {
+      if (data.status === "error" ) {
         return dispatch(Actions.setUserData(data))
       } else{
         const { token } = data
@@ -38,10 +50,6 @@ const Actions = {
         }
       });
     },
-    fetchUserLogout: (bool) => dispatch =>({
-      type: 'USER:SET_IS_AUTH',
-      payload: bool
-    }),
     fetchUserRegister: (postData) => dispatch => {
       return userApi.registration(postData).then(({data}) =>
     console.log(data)
@@ -52,10 +60,7 @@ const Actions = {
         }
       })
     },
-    setUsersData: data => ({
-      type: "USER:SET_USERS_DATA",
-      payload: data
-    }),
+
     fetchAllUsers: () => dispatch => {
       return userApi.getAllUsers().then(({data}) => {
         data.map(i =>  (i.label = i.name,  i.key=i._id, i.value=i.name))
@@ -69,6 +74,11 @@ const Actions = {
         dispatch(Actions.setUsersData(newdata))
       })
     },
+    userUpdateAvatar: file => dispatch => {
+      return userApi.upLoadAvatar(file).then(({data})=>{
+          dispatch(Actions.setUsersAvatar(data))
+      })
+    }
 
   };
   export default Actions

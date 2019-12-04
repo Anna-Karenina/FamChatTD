@@ -15,32 +15,34 @@ const Actions = {
         });
       }
   },
-  fetchSendMessage: (text, dialogId) => dispatch => {
-    messagesApi.newMessage(text, dialogId);
+  fetchSendMessage: (text, dialogId, files) => dispatch => {
+    messagesApi.newMessage(text, dialogId, files);
   },
   setIsLoading: bool => ({
     type: "MESSAGES:SET_IS_LOADING",
     payload: bool
   }),
   removeMessageById: id => dispatch => {
-    messagesApi
-      .removeById(id)
-      .then(({ data }) => {
-        dispatch({
-          type: "MESSAGES:REMOVE_MESSAGE",
-          payload: id
+    if (window.confirm("Вы действительно хотите удалить сообщение?")) {
+      messagesApi
+        .removeById(id)
+        .then(({ data }) => {
+          dispatch({
+            type: "MESSAGES:REMOVE_MESSAGE",
+            payload: id
+          });
+        })
+        .catch(() => {
+          dispatch(Actions.setIsLoading(false));
         });
-      })
-      .catch(() => {
-        dispatch(Actions.setIsLoading(false));
-      });
+    } 
   },
   fetchMessages: dialogId => dispatch => {
     dispatch(Actions.setIsLoading(true))
      messagesApi
        .getAll(dialogId)
        .then(({ data }) => {
-         dispatch(Actions.setMessages(data));
+         dispatch(Actions.setMessages(data.messages));
           dispatch(Actions.setIsLoading(false));
        })
        .catch(() => {

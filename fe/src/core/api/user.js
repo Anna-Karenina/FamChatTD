@@ -7,4 +7,13 @@ export default{
   registration: (postData) => axios.post('user/registration', postData),
   getAllUsers: query => axios.get("/user/allUsers?query="),
   getOnlyOneUser: id => axios.get('/user?id=' + id),
+  upLoadAvatar: file => {
+      const formData = new FormData();
+      formData.append("file", file);
+      return axios.post("/user/avatarupload", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data"
+        }
+      });
+    }
 }

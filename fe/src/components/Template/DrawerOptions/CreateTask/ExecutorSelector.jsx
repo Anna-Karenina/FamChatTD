@@ -1,14 +1,15 @@
-import React from 'react';
+import * as React from 'react';
 import Select from 'react-select';
 
 
-const CustomSelect = ({users, handleBlur, value,onChange}) => {
+const ExecutorSelect = ({users, handleBlur, value,onChange, disabl}) => {
   const handleChange = value => {
     onChange('taskAssignee', value);
   };
   return (
     <>
       <Select
+        isDisabled ={disabl}
         placeholder ='Кому? выбрать из списка'
         id="taskAssignee"
         options={users}
@@ -24,4 +25,4 @@ const CustomSelect = ({users, handleBlur, value,onChange}) => {
     </>
   )
 }
-export default CustomSelect
+export { ExecutorSelect }

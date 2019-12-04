@@ -1,5 +1,4 @@
 import React,{useEffect, useState} from 'react'
-
 import { Link } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles';
 import IconButton from '@material-ui/core/IconButton';
@@ -69,35 +68,37 @@ const useStyles = makeStyles(theme => ({
 }));
 
 
-const OneDialogElement = ({id, setCurrentDialogId,  partner, lastsMessage,readed, author}) =>{
+const OneDialogElement = ({id, setCurrentDialogId,  partner, lastMessage,readed, author}) =>{
   const classes = useStyles();
   let [choosenPartner ,setChoosenPartner] = useState(partner)
 
 
 useEffect(()=>{
-  (partner._id === window.localStorage.ulid) ?
-           (setChoosenPartner (author)):
-            (setChoosenPartner(partner))
+  (partner._id === window.localStorage.ulid)
+   ?
+    (setChoosenPartner (author))
+   :
+    (setChoosenPartner(partner))
       },[choosenPartner])
 
 
   return(
-    <Paper className={classes.root}
-            style={{textDecaration: 'none'}}
+    <Paper
+      className={classes.root}
+      style={{textDecaration: 'none'}}
       onClick={setCurrentDialogId.bind(this, {id, choosenPartner })}
       >
     <Link to={`/messages?dialogs=${id}`}
-
        className={classes.onedialogwrapper}>
 
        <Avatar
          alt={choosenPartner.name}
-         src={choosenPartner.avatar}
+         src={ `data:image/jpeg;base64,${choosenPartner.avatar}`}
          className= {classes.bigAvatar} />
 
        <div className={classes.discription}>
          <h3 className={classes.name}>{choosenPartner.name}</h3>
-         <p className={classes.lastsmessage}>{lastsMessage}</p>
+         <p className={classes.lastsmessage}>{lastMessage}</p>
        </div>
 
 

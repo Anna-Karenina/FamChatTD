@@ -5,16 +5,16 @@ import { Form, Field } from 'formik'
 import {MuiPickersUtilsProvider} from "@material-ui/pickers";
 
 import {GreenRadio,RedRadio,YellowRadio,OrangeRadio}  from './ColoredRadio'
-import  CustomSelect   from './CustomSelect'
-import  CustomDatePicker   from './CustomDataPickers'
+import  { ExecutorSelect }   from './ExecutorSelector'
+import  CustomDatePicker   from './CustomDatePicker'
 import {
   Button, Dialog,
   makeStyles, DialogActions,
   DialogContent, DialogTitle,
   TextField } from '@material-ui/core';
 
-  import PostAddIcon from '@material-ui/icons/PostAdd';
-  import DateFnsUtils from '@date-io/date-fns'
+import PostAddIcon from '@material-ui/icons/PostAdd';
+   import DateFnsUtils from '@date-io/date-fns'
 
 
   const useStyles = makeStyles(theme => ({
@@ -27,7 +27,7 @@ import {
       flexDirection: 'column',
       flexWrap: 'wrap',
       padding: theme.spacing(1),
-      minWidth:350,
+      minWidth:310,
     },
     btn:{
       color: '#fff',
@@ -71,7 +71,7 @@ import {
   const CreateTask = (props) => {
     const classes = useStyles();
     console.log(props)
-    const {handleSubmit, handleChange, values, setFieldValue} = props
+    const {handleSubmit, handleChange, values, setFieldValue, isValid} = props
     const [selectedValue, setSelectedValue] = useState('a');
     const [state, setState] = useState({ open: false });
     const [users, setUsers] = useState(props.users);
@@ -133,18 +133,24 @@ import {
               variant="outlined"
               value={values.taskName}
               />
+            <br />
+            <label style={{color: 'rgba(0, 0, 0, 0.54)'}}>
+              <Field type="checkbox" name="toAll" />
+              Опубликовать для всех?
+            </label>
 
             <div className={classes.taskName+' '+classes.formControlSelect}>
-            <CustomSelect
-              className = {classes.formControlSelect}
-              onChange={setFieldValue}
-              value={values.taskAssignee}
-              users={users}
-              />
+              <ExecutorSelect
+                disabl = {values.toAll}
+                className = {classes.formControlSelect}
+                onChange={setFieldValue}
+                value={values.taskAssignee}
+                users={users}
+                />
 
-          </div>
+            </div>
             <div
-            className={classes.taskName}>
+              className={classes.taskName}>
               <MuiPickersUtilsProvider utils={DateFnsUtils}>
                 <Field
                   component={CustomDatePicker}
@@ -200,16 +206,21 @@ import {
 
           </DialogContent>
           <DialogActions>
-            <Button onClick={handleClose} color="primary">
-              Отмена
-            </Button>
-            <Button
-              color="primary"
-              type="submit"
-              onClick={handleSubmit , handleClose}
-              >
-              Создать
-            </Button>
+            {     isValid ?
+              <>
+              <Button onClick={handleClose} color="primary">
+                Отмена
+              </Button>
+              <Button
+                color="primary"
+                type="submit"
+                onClick={
+                  handleSubmit, handleClose
+                }>
+                Создать
+              </Button>
+              </>
+            : <div>Заполните все поля</div> }
           </DialogActions>
         </Form>
       </Dialog>

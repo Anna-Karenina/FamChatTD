@@ -17,7 +17,6 @@ import AllInboxIcon from '@material-ui/icons/AllInbox';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 import AssignmentReturnedIcon from '@material-ui/icons/AssignmentReturned';
 import AssignmentInd from '@material-ui/icons/AssignmentInd';
-import GroupIcon from '@material-ui/icons/Group';
 import AssignmentLateIcon from '@material-ui/icons/AssignmentLate';
 import SettingsIcon from '@material-ui/icons/Settings';
 
@@ -150,7 +149,7 @@ const useStyles = makeStyles(theme => ({
 
 }));
 
-const Template = ({ hierarchy, fetchAllTasks }) => {
+const Template = ({ hierarchy, fetchAllTasks, fetchUserTasks }) => {
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = useState(false);
@@ -163,14 +162,9 @@ const Template = ({ hierarchy, fetchAllTasks }) => {
         Action: ()=>alert('Новые задачи')
       },
       {
-        label: 'Командные задачи',
-        Icon: GroupIcon,
-        Action: ()=>alert('Командные задачи')
-      },
-      {
         label: 'Мои задачи',
-        Icon: AssignmentInd, 
-        Action: ()=>alert('Мои задачи')
+        Icon: AssignmentInd,
+        Action: fetchUserTasks
       },
       {
         label: 'На расмотрении',

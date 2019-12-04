@@ -16,7 +16,6 @@ const PassInput = (props) => {
    handleBlur,
    id,
    placeholder,
-
  } = props;
   return (
     <div className ={

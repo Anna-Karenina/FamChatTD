@@ -12,15 +12,16 @@ const Actions = {
         })
  },
   fetchAllTasks: (postData) => dispatch => {
-       tasksApi.getAll()
+       tasksApi.getAllTasks()
         .then(({data}) =>{
           let items = data
         dispatch(Actions.setTasks(items));
         })
  },
-  fetchTeamTasks: (postData) => dispatch => {
-       tasksApi.getTeamTasks()
+  fetchUserTasks: (postData) => dispatch => {
+       tasksApi.getMyTasks()
         .then(({data}) =>{
+            console.log(data)
           let items = data
         dispatch(Actions.setTasks(items));
         })

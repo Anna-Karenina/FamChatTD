@@ -8,29 +8,31 @@ const CreateTaskForm = withFormik ({
   mapPropsToValues: () => ({
       taskName:  '',
       taskAssignee: '',
+      toAll: '',
       datepickerinline:  new Date() ,
-      timepicker: '',
       taskDiscription: '',
       priority: '',
 }),
-  // validate: (values, touched) => {
-  //   let errors = {};
-  //
-  //   if (!values.email) {
-  //     errors.email = 'Обязательно'
-  //   } else if (
-  //     !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(
-  //       values.email
-  //     )
-  //   ) {
-  //     errors.email = 'Неверный формат'
-  //     client.message  = 'Неверный формат'
-  //     variants = 'warning'
-  //   }
-  //
-  //
-  //   return( errors ,variants, client )
-  // },
+  validate: (values, touched) => {
+    let errors = {};
+
+    if (!values.taskName) {
+      errors.taskName = 'Обязательно'
+    }
+
+    else if (!values.datepickerinline) {
+      errors.datepickerinline = 'Обязательно'
+    }
+    else if (!values.taskDiscription) {
+      errors.taskDiscription = 'Обязательно'
+    }
+    else if (!values.priority) {
+      errors.priority = 'Обязательно'
+    }
+
+
+    return errors
+  },
 
   handleSubmit: (values, { setSubmitting, resetForm, props }) => {
     const payload = {

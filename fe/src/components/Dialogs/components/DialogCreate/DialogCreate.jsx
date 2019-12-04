@@ -8,7 +8,8 @@ import { Notification } from './../../../Auth/components/index'
 // import Loading from './../Template/Loading/Loading';
 
 
-import { makeStyles, Button,
+import {
+  makeStyles, Button,
   Dialog, DialogActions,
   DialogContent, DialogTitle, TextField } from '@material-ui/core';
 import PostAddIcon from '@material-ui/icons/PostAdd';
@@ -27,14 +28,13 @@ const useStyles = makeStyles(theme => ({
   },
   textField:{
     width: '100%',
-
   }
 }));
 
 const DialogCreate = ({ users, fetchAllUsersForNewDialogs, ...props,}) => {
   const classes = useStyles();
   const [state, setState] = useState({ open: false});
-  const {handleChange, handleSubmit, values, handleBlur, status} = props
+  const {handleChange, handleSubmit, values, handleBlur, status, message, variants} = props
 
 console.log(users, props)
 
@@ -99,7 +99,7 @@ return(
       </DialogActions>
     </Dialog>
     </Form>
-    <Notification status={status} serverMessageError={props.serverMessageError} />
+    <Notification status = {status} variants = {variants} message = {message}/>
   </div>
 )
 }
@@ -109,14 +109,17 @@ const EnhancedDialogCreate = withFormik({
   handleSubmit: (values, {setSubmitting, setStatus, props }) => {
     console.log(props)
     setTimeout(() => {
+      setSubmitting(true)
       dialogsApi
         .newDialog({
           partner: values._id,
           text: values.newMessage
         }).then((data)=>{
+          setSubmitting(false)
           if(data.status) {
             setStatus('error')
           } else {
+            setSubmitting(false)
             setStatus('success')
           }
         }

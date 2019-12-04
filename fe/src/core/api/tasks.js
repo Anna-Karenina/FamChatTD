@@ -1,8 +1,7 @@
 import { axios } from './../index'
 
-
 export default{
-  getAll: () => axios.get('/tasks/getall'),
-  getTeamTasks: () => axios.get('/tasks/getteamtasks'),
+  getAllTasks: () => axios.get('/tasks/getall'),
+  getMyTasks: () => axios.get('/tasks/getmytasks'),
   newTask: (postData) => axios.post('/tasks', postData),
 }

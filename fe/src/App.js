@@ -7,6 +7,8 @@ import store from './redux/Redux-Store'
 import { userActions} from './redux/actions/index';
 import ChatContainer from './components/Dialogs/Chat/Chat';
 
+import  "./corestyle.scss";
+
 const App = ({isAuth}) => {
 
   useEffect(()=>{

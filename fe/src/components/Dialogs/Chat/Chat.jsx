@@ -1,10 +1,9 @@
-import React,{useEffect ,useRef} from 'react';
+import React,{useEffect ,useRef,useState} from 'react';
 import { Link } from 'react-router-dom'
 import { connect } from "react-redux";
 import socket from "./../../../core/socket"
 import {  messagesActions  } from "./../../../redux/actions/index";
-
-
+import typing from '../../../assets/circles-menu-1.gif'
 import OutMessageInput from './OutMessageInput'
 import Loading from './../../Template/Loading/Loading'
 
@@ -19,45 +18,56 @@ import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import PhoneIphoneIcon from '@material-ui/icons/PhoneIphone';
 
 const useStyles = makeStyles(theme => ({
+  
   bigAvatar: {
     width: 59,
     height: 59,
     marginLeft: '2%',
     marginRight: '3%',
   },
-
 }));
 
-const ChatContainer  = (props) => {
- const classes = useStyles()
- const messagesRef = useRef(null)
-  const {
+const Chat  = ({
     currentDialogId,
     addMessage,
     fetchMessages,
     items,
     isLoading,
-    currentPartner
-  } = props
-
+    currentPartner }) => {
+ const classes = useStyles()
+ const messagesRef = useRef(null)
+  const [isTyping, setIsTyping] = useState(false);
+  let typingTimeoutId = null;
 
   const onNewMessage = data => {
     addMessage(data);
   };
+
+  const toggleIsTyping = () => {
+    setIsTyping(true);
+    console.log('печатает');
+    clearInterval(typingTimeoutId);
+    typingTimeoutId = setTimeout(() => {
+      setIsTyping(false);
+    }, 3000);
+  };
+
+  useEffect(() => {
+    socket.on('DIALOGS:TYPING', toggleIsTyping);
+  }, []);
 
   useEffect(() => {
     if (currentDialogId) {
       fetchMessages(currentDialogId);
     }
     socket.on("SERVER:NEW_MESSAGE", onNewMessage);
-
     return () =>{
       socket.removeListener("SERVER:NEW_MESSAGE", onNewMessage)};
   }, [currentDialogId]);
 
   useEffect(() => {
     messagesRef.current.scrollTo(0, 999999);
-  }, [items.length > 1]);
+  }, [items, isTyping]);
 
   return (
     <div className = {cl.maincontainer}>
@@ -70,11 +80,13 @@ const ChatContainer  = (props) => {
         </Link>
         <span className={cl.date}>
         {currentPartner.isOnline ?
-          <span className={cl.online}> <PhoneIphoneIcon className={cl.phoneOnline} /> online </span> : 'offline'}
+          <span className={cl.online}>
+           <PhoneIphoneIcon className={cl.phoneOnline} /> online
+          </span> : 'offline'}
         </span>
           <Avatar
             alt={currentPartner.name}
-            src={currentPartner.avatar}
+            src={`data:image/jpeg;base64,${currentPartner.avatar}`}
             className= {classes.bigAvatar}
           />
           <span className={cl.partnerName}>
@@ -85,17 +97,29 @@ const ChatContainer  = (props) => {
         { isLoading ?
           <div className = {cl.listOfDialog}>
             <Loading />
-          </div> :
+          </div>
+          :
           <div className = {cl.listOfDialog} ref={messagesRef}>
             {items.map(i =>
               <OneBubbleChat
                 key = {i._id}
+                id = {i._id}
                 text={i.text}
                 dialogAuthor = {i.dialog.author}
                 messageAuthor = {i.user._id}
                 createdAt ={i.createdAt}
                 readed={i.readed}
+                files={i.files}
                 />)}
+                { isTyping ?
+                  <div className =
+                    {cl.incomin + ' ' + cl.message}>
+                    <span />
+                    <img src={typing} alt='typing' className = {cl.Typing}/>
+                    <br  />
+                    <span />
+                  </div>
+                  : null }
           </div>
         }
         <div className = {cl.formcontainer}>
@@ -117,4 +141,4 @@ const ChatContainer  = (props) => {
   }
 
 
-  export default connect(mapStateToProps, messagesActions)(ChatContainer)
+  export default connect(mapStateToProps, messagesActions)(Chat)

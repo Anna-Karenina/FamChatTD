@@ -8,7 +8,7 @@ const DialogSelect = (props) => {
 //const [option, setOption] = useState(props.options);
 //const [isLoading, setIsLoading] = useState(false)
 //isLoading={isLoading}
-const  handleChange = (newValue: any, actionMeta: any) => {
+const  handleChange = (newValue ,actionMeta) => {
   //вытащить из пропсов функцию для изменения стейта
   //props.экшенИзРедакса(newOption, option)
   };

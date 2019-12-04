@@ -67,13 +67,11 @@ const MyNotificationContentWrapper = (props) => {
   );
 }
 
-
-
-
-const Notification = (props) => {
-  const open = !!props.status || !!props.statusError
-  const errorMessage = props.serverMessageError || 'Регистрация прошла успешно' || props.client.message 
-  let variants=props.variants || props.status
+const Notification = React.memo ( (props) => {
+  console.log(props)
+  const open = !!props.status
+  const message = props.message
+  const variants= props.variants || props.status
 
   return (
     <div>
@@ -89,10 +87,10 @@ const Notification = (props) => {
         <MyNotificationContentWrapper
           onClose={()=>open}
           variant={variants}
-          message={errorMessage}
+          message={message}
         />
       </Snackbar>
     </div>
   );
-}
+})
 export default Notification

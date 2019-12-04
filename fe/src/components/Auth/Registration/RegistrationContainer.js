@@ -53,7 +53,6 @@ const RegistrationForm = withFormik({
           setSubmitting(false)
         }, 1000);
 
-
       }).catch(err=>{
          if(err.status === 'error'){
            setStatus(err.status)
@@ -65,8 +64,8 @@ const RegistrationForm = withFormik({
 
 const mapStateToProps = (state) =>{
 return{
-  statusError : state.user.data.status,
-  serverMessageError : state.user.data.message,
+  status : state.user.data.status,
+  message : state.user.data.message,
   variants: state.user.data.variants,
   }
 }

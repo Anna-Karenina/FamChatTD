@@ -92,15 +92,24 @@ height: 2vh;
   bottom: 0;
   width: 100%;
 }
+.bubbleimg{
+  width: 50vw;
+  border-radius: 3vw;
+  margin: 1vw;
+}
 .cont{
   width: 100%
 }
+.Typing{
+  width: 11vw;
+  }
 .backbutton{
 margin-left: -10px;
 }
 .metadata {
 width: 100%;
-word-wrap: normal;
+display: flex;
+justify-content: flex-end;
 }
 .metadata .tick {
   display: inline-block;

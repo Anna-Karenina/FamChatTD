@@ -1,5 +1,6 @@
 const initialState = {
   items: [],
+  files: [],
   isLoading: false,
 };
 
@@ -16,6 +17,11 @@ export default (state = initialState, { type, payload }) => {
         items: payload,
         isLoading: false,
       };
+      case "ATTACHMENTS:SET_ITEMS":
+        return {
+          ...state,
+          files: payload
+        };
     case 'DIALOGS:LAST_MESSAGE_READED_STATUS':
       console.log('тут')
       return {

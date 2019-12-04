@@ -27,11 +27,11 @@ const LoginForm = withFormik ({
   handleSubmit: (values,  { setSubmitting, setStatus, props }) => {
     values.email.toLowerCase()
     props.fetchUserLogin(values)
-      .then((data)=>{
-          setStatus(data.payload.status)
+      .then(()=>{
+          setStatus('success')
           setSubmitting(false)
         }
-      ).catch(err => {
+      ).catch(err => {console.log(err)
         setStatus('error')
         setSubmitting(false)
         })
@@ -46,7 +46,7 @@ const LoginForm = withFormik ({
 const mapStateToProps = (state) =>{
 return{
   status : state.user.data.status,
-  serverMessageError : state.user.data.message,
+  message : state.user.data.message,
   variants: state.user.data.variants,
   }
 }

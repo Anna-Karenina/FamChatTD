@@ -1,16 +1,18 @@
-import React from 'react'
+import React,{useState ,useRef, useEffect} from 'react'
 import {connect} from 'react-redux'
 import {userActions} from './../../../../redux/actions/index'
-
+import {dateConverter} from '../../../../core'
 import {IButton} from '../../../Auth/components/index'
-import Paper from '@material-ui/core/Paper';
-import { makeStyles } from '@material-ui/core/styles';
-import Avatar from '@material-ui/core/Avatar';
-import Typography from '@material-ui/core/Typography';
 
-import parseISO from 'date-fns/parseISO'
-import format from 'date-fns/format'
-import  ruLocale  from 'date-fns/locale/ru'
+import {
+  Paper,
+  makeStyles,
+  Avatar,
+  Typography,
+  Button
+}   from '@material-ui/core';
+
+import PersonIcon from '@material-ui/icons/Person';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -47,11 +49,11 @@ const useStyles = makeStyles(theme => ({
     width: '90%'
   },
   changeava:{
-    opacity: '0.4',
-    fontSize: '8px',
-    marginLeft: '3%',
-    padding: '3%',
+    display: 'flex',
+    opacity: '0.9',
+    fontSize: '11px',
     textAlign:'center',
+    alignItems: 'center',
   },
   inputfile:{
     	width: '0.1px',
@@ -64,6 +66,9 @@ const useStyles = makeStyles(theme => ({
   lable:{
     display:'flex',
   },
+  icons:{
+    color: 'rgb(80,182,191)'
+  }
 
 
 }));
@@ -73,32 +78,32 @@ const Settings = (props) => {
   const{
     email,
     name,
-    avatar,
     createdAt,
-    updatedAt,
     hierarchy,
     lastSeen,
     fetchUserLogout,
   } = props.data
-let arr =[' ' , 'уборщик' , 'юнга', 'кэп']
-const newHierarchy = (arr[hierarchy])
-
-const generateNormaldate = isoDate =>{
-  let date = parseISO(isoDate)
-  return  format(new Date(date), 'dd MMMM yyyy в HH:m',{ locale: ruLocale})
-}
+  const arr = [' ' , 'уборщик' , 'юнга', 'кэп']
+  const newHierarchy = (arr[hierarchy])
+  const [avatar , setAvatar] = useState(props.data.avatar)
+  const inputEl = useRef(null)
 
 
-  const handleSubmit = ()=>{
+  const localstorDelete = ()=>{
     delete window.localStorage.token
     delete window.localStorage.ulid
     fetchUserLogout(false)
       props.history.push('/')
   }
-const handleFiles =() =>{
-  let fileList = this.files
-  console.log(fileList)
-}
+
+  const onAvatarUpload = e =>{
+    e.preventDefault()
+    props.userUpdateAvatar(inputEl.current.files[0])
+  }
+  useEffect(() => {
+    setAvatar(props.data.avatar)
+  },[props.data.avatar]);
+
   return (
     <Paper className={classes.root}>
       <div className={classes.avatarwrapper}>
@@ -108,43 +113,48 @@ const handleFiles =() =>{
           gutterBottom variant="h5" component="h2">
           {name}
         </Typography>
-        <span className={classes.changeava}>
-          <input
-            type="file"
-            name="file"
-            id="file"
-            className={classes.inputfile}
-            
-             />
-          <label htmlFor="file" className={classes.lable}>
-            изменить аваа
-          </label>
-        </span>
        </div>
         <Avatar
           alt={name}
-          src={avatar}
-          className={classes.bigAvatar}/>
+          src={`data:image/jpeg;base64,${avatar}`}
+          className={classes.bigAvatar}
+        />
       </div>
       <div className={classes.discription} >
+        <span className={classes.changeava}>
+          <input
+            className={classes.inputfile}
+            ref = {inputEl}
+            type="file"
+            name="file"
+            id="file"
+            multiple = {false}
+            onChange={onAvatarUpload}
+             />
+           <Button variant="outlined" color="primary">
+             <PersonIcon className={classes.icons} />
+              <label htmlFor="file" className={classes.lable}>
+                изменить аватар
+              </label>
+           </Button>
+        </span>
         <br />
         <br />
         <br />
         <br />
-        <br />
-        <br />
+
         <br />
         {email}
         <br />
-        Создан :{generateNormaldate(createdAt)}
+        Создан :{dateConverter(createdAt)}
         <br />
-          Онлайн: {generateNormaldate(lastSeen)}
+          Онлайн: {dateConverter(lastSeen)}
         <br />
         <br />
         hierarchy: {newHierarchy}
         <br />
         <IButton
-           handleSubmit={handleSubmit}
+           handleSubmit={localstorDelete}
            placeholder="Выйти из аккаунта"
            isValid={true}/>
       </div>
@@ -156,6 +166,8 @@ const handleFiles =() =>{
 const mapDispachToProps = (dispatch) =>{
   return {
     fetchUserLogout: (bool) => dispatch(userActions.fetchUserLogout(bool)),
+    userUpdateAvatar: (file) =>
+      dispatch(userActions.userUpdateAvatar(file))
   }
 }
 

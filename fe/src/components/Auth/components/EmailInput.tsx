@@ -1,29 +1,38 @@
-import React from 'react'
+import React, { SFC } from 'react'
 
-import styled from './../Auth.module.css'
-
+import * as cl from '../Auth.module.css'
 import IconButton from '@material-ui/core/IconButton';
 
 import AlternateEmailIcon from '@material-ui/icons/AlternateEmail';
 import ErrorOutlineIcon from '@material-ui/icons/ErrorOutline';
 import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
 
-const EmailInput = React.memo( (props) => {
-  const {
+interface IEmailInputProps{
+  values: any
+  touched:any
+  errors:any
+  handleChange:any
+  handleBlur:any
+  id:string
+  placeholder: string
+}
+
+const EmailInput: React.SFC<IEmailInputProps>   = React.memo( (props: 
+  IEmailInputProps  ) => {
+    const {  
     values,
-    touched,
-    errors,
-    handleChange,
-    handleBlur,
-    id,
-    placeholder
-  } = props;
+    touched , 
+    errors , 
+    handleChange , 
+    handleBlur , 
+    id ,
+    placeholder ,} = props
   return (
     <div className ={
-        errors[id] && touched[id] ? 
-        (styled.logininputcontainer+' '+styled.logininputcontainerborder) : (styled.logininputcontainer)
+        errors[id] && touched[id] ?
+        (cl.logininputcontainer+' '+cl.logininputcontainerborder) : (cl.logininputcontainer)
       }>
-      <AlternateEmailIcon className = {styled.icon}/>
+      <AlternateEmailIcon className = {cl.icon}/>
 
       <input
         id={id}
@@ -32,12 +41,12 @@ const EmailInput = React.memo( (props) => {
         value={values[id]}
         onChange={handleChange}
         onBlur={handleBlur}
-        className={styled.logininput}
+        className={cl.logininput}
         />
       {touched[id] && errors[id] === undefined  ?
         <IconButton
           color="primary"
-          className={styled.eror}
+          className={cl.eror}
           aria-label="errorr">
           <CheckCircleOutlineIcon />
         </IconButton>
@@ -48,7 +57,7 @@ const EmailInput = React.memo( (props) => {
             onClick={()=>{alert(errors[id])}}
             title= "Не верный формат почты"
             color="secondary"
-            className={styled.eror}
+            className={"eror"}
             aria-label="errorr">
             <ErrorOutlineIcon />
           </IconButton>)

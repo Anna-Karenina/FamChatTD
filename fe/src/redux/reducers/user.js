@@ -22,6 +22,16 @@ export default (state = initstate, { type , payload }) =>{
         ...state,
         isAuth: payload
     }
+    case 'USER:UPDATE_USER_AVATAR':
+      return {
+      ...state,
+      data:{
+          ...state.data ,
+
+            avatar: payload
+          
+        }
+    }
     default:
       return state
   }
