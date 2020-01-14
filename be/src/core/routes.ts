@@ -34,7 +34,7 @@ const  createRoutes = async (
     app.post('/user/login', loginValidation, UserController.login)
     app.post('/user/registration', UserController.create)
     app.get("/user/allUsers", UserController.finAllUsers)
-    app.get('/user/:id', UserController.show)
+    app.get('/user', UserController.show)
     app.post('/user', UserController.update)
     app.post('/user/avatarupload', misc.upload.single('file'), UserController.updateava)
     app.delete('/user/:id', UserController.deleteUser)
@@ -45,11 +45,18 @@ const  createRoutes = async (
 
     app.get('/messages', MessageController.index)
     app.post('/messages', MessageController.create)
-    app.delete('/messages/:id', MessageController.delete)
+    app.delete('/messages', MessageController.delete)
 
     app.get('/tasks/getall', TaskController.index )
+    app.get('/tasks/getallarchive', TaskController.archiveindex )
     app.get('/tasks/getmytasks', TaskController.indexmytasks )
+    app.get('/tasks/getnewtasks', TaskController.indexmynewtasks )
+    app.get('/tasks/getcomplitetasks', TaskController.indexmycomplitetasks )
     app.post('/tasks', TaskController.create )
+    app.post('/tasks/taketasktoprogress', TaskController.taketasktoprogress )
+    app.post('/tasks/taketasktocomplite', TaskController.taketasktocomplite )
+    app.post('/tasks/toarchivetask/', TaskController.toarchive )
+    app.delete('/tasks/deleteTask/', TaskController.deletetask )
 
     app.post('/upload', misc.upload.single('file'), UploadingController.upload)
 }

@@ -34,6 +34,7 @@ const UserSchema = new Schema (
     password: {
       type:String,
       required: 'Обязателен для ввода',
+      select: false
     },
     lastSeen: {
       type:Date,
@@ -43,7 +44,9 @@ const UserSchema = new Schema (
       type: Boolean,
       default: false
     },
-    confirm_hash: String,
+    confirm_hash: {
+      type : String,
+      select: false},
     hierarchy:{
       type: Number,
       default: 1
@@ -68,7 +71,6 @@ UserSchema.pre('save', async function(this: IUser, next: () => void) {
   if (!user.isModified('password')) {
     return next();
   }
-
     user.password = await generatePasswordHash(user.password);
     user.confirm_hash = await generatePasswordHash(new Date().toString());
   });

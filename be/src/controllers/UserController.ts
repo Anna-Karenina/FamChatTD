@@ -15,7 +15,7 @@ class UserController{
   }
 
   show = (req: express.Request, res: express.Response)=> {
-    const id: string = req.params.id
+    const id: string = req.query.id
     UserModel.findById(id, (err, user)=>{
       if(err){
         return res.status(404).json({
@@ -53,6 +53,7 @@ class UserController{
          });
        });
    };
+
 
   deleteUser = (req: express.Request, res: express.Response) => {
     const id: string = req.params.id;

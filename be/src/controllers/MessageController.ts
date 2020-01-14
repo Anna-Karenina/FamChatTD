@@ -29,14 +29,42 @@ class MessageController {
     );
   };
 
-  index =  (req: express.Request, res: express.Response) => {
-
+  index = async (req: express.Request, res: express.Response) => {
+    console.log(req.query)
    const dialogId: string = req.query.dialog;
    const userId: any = req.user._id;
     this.updateReadedStatus(res, userId, dialogId);
+    // //_________________pagination_____start
 
-    MessageModel.find({ dialog: dialogId })
+    // const page :number = parseInt(req.query.page)
+    // const limit :number = parseInt(req.query.limit)
+    
+    // const startIndex= (page - 1)*limit
+    // const endIndex  =  page * limit
+
+    // const results:any={}
+
+    // const a = await MessageModel.find({ dialog: dialogId }).countDocuments().exec()
+
+    // if(endIndex <  a){
+    // results.next  = {
+    //   page:page + 1,
+    //   limit: limit
+    // }
+    // }
+    // if(startIndex > 0 ){
+    //   results.previous = {
+    //     page:page - 1,
+    //     limit: limit
+    //   }
+    // }
+    // //_________________pagination______end
+
+
+    await MessageModel.find({ dialog: dialogId })
      .populate(["dialog", "user" ,'files'])
+    //  .skip(endIndex)
+    //  .limit(limit)
      .exec()
      .then( async  docs => {
       const messages = docs.map( async doc => {
@@ -120,7 +148,6 @@ class MessageController {
   delete = (req: express.Request, res: express.Response) => {
    const id: string = req.query.id;
    const userId: string = req.user._id;
-
    MessageModel.findById(id, (err, message: any) => {
      if (err || !message) {
        return res.status(404).json({
@@ -128,7 +155,6 @@ class MessageController {
          message: 'Сообщение не найдено',
        });
      }
-
      if (message.user.toString() === userId) {
        const dialogId = message.dialog;
        message.remove();

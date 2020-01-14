@@ -24,32 +24,40 @@ export interface ITask extends Document {
       require: boolean;
       default: false;
     },
-    opennew:{
-      type: boolean;
-      require: boolean;
-      default: true;
-    },
     complete:{
       type: boolean;
       require: boolean;
       default: false;
     },
-    status:{
-      type: string;
-      require: true;
-      default: string;
+    archive:{
+      type: boolean;
+      require: boolean;
+      default: false;
+    },
+  },
+  taskAssignee:[{
+    _id: boolean;
+    assignee:{
+      type: Schema.Types.ObjectId;
+      ref: string;
+    },
+    assigneeStatus:{
+      isNew:{
+        type: boolean;
+        require: boolean;
+        default: boolean;
+      },
+      status:{
+        type: string;
+        require: boolean;
+        default: string;
+      }
     }
-  },
-  taskAssignee:{
-    type: Schema.Types.ObjectId;
-    ref: string;
-  },
+  }],
   datepickerinline:{
     type: Date,
   },
  }
-
-
 
 const TaskSchema = new Schema(
   {
@@ -57,7 +65,14 @@ const TaskSchema = new Schema(
     taskDiscription: { type: String, require: Boolean },
     taskCreator: { type: Schema.Types.ObjectId, ref: 'User', require: true },
     taskPriority: { type:String ,  require: true },
-    taskAssignee:[{ type: Schema.Types.ObjectId, ref: 'User' }],
+    taskAssignee:[{
+      _id:false,
+      assignee:{type: Schema.Types.ObjectId, ref: 'User'},
+      assigneeStatus:{
+        isNew:{type:Boolean, require: true, default: true } ,
+        status:{type:String, require: true, default: "openNew"  }
+      }
+     }],
     datepickerinline:{type: Date},
     taskStatus:{
       team:{
@@ -65,20 +80,15 @@ const TaskSchema = new Schema(
         require: true,
         default: false,
       },
-      opennew:{
-        type: Boolean,
-        require: true,
-        default: true,
-      },
       complete:{
         type: Boolean,
         require: true,
         default: false,
       },
-      status:{
-        type: String,
+      archive:{
+        type: Boolean,
         require: true,
-        default: 'open',
+        default: false,
       },
     },
     },
@@ -87,7 +97,8 @@ const TaskSchema = new Schema(
   }
 );
 const TaskModel = mongoose.model<ITask>("Task", TaskSchema);
+const ArchiveTaskModel = mongoose.model<ITask>("ArchiveTask", TaskSchema);
 
 export default TaskModel;
 
-//status: open,  archive, taked
+//status: openNew , inProgress , readyPendingReview ,returnedForCorrection, completed&close, deadlineEnded
